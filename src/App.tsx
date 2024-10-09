@@ -5,7 +5,7 @@ function App() {
   const routes = useAppRoutes();
 
   return (
-    <div>
+    <div className="bg-ui-background-secondary">
       <RouterProvider router={createBrowserRouter(routes)} />
     </div>
   );
