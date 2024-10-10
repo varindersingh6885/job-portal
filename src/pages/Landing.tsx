@@ -10,7 +10,7 @@ export const LandingPage = () => {
       <div className="flex flex-col gap-6 text-center px-10 py-20 rounded-lg shadow-ui-4 bg-ui-background-primary">
         <h1 className="text-5xl">Welcome to JobMart</h1>
         <h2 className="text-3xl">Continue as</h2>
-        <div className="flex gap-2 justify-between">
+        <div className="grid grid-cols-2 gap-6">
           <Button
             label="Job Seeker"
             onClick={() => navigate(APP_ROUTES.JOB_SEEKER_LOGIN)}

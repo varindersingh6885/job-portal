@@ -2,6 +2,8 @@ import { RouteObject } from "react-router-dom";
 import { LandingPage } from "./pages/Landing";
 import { APP_ROUTES } from "./shared/constants";
 import { EmployerLogin } from "./pages/EmployerLogin";
+import { EmployerDashboard } from "./pages/EmployerDashboard";
+import { EmployerCreateJob } from "./pages/EmployerCreateJob";
 
 export const useAppRoutes = (): RouteObject[] => {
   return [
@@ -27,7 +29,11 @@ export const useAppRoutes = (): RouteObject[] => {
     },
     {
       path: APP_ROUTES.EMPLOYER_DASHBOARD,
-      element: <div>Employer Dashboard</div>,
+      element: <EmployerDashboard />,
+    },
+    {
+      path: APP_ROUTES.EMPLOYER_CREATE_JOB,
+      element: <EmployerCreateJob />,
     },
   ];
 };

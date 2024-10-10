@@ -9,4 +9,5 @@ export enum APP_ROUTES {
   EMPLOYER_LOGIN = "/employer/login",
   EMPLOYER_REGISTER = "/employer/register",
   EMPLOYER_DASHBOARD = "/employer/dashboard",
+  EMPLOYER_CREATE_JOB = "/employer/create-job",
 }

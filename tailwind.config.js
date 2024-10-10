@@ -14,7 +14,7 @@ export default {
       },
       backgroundColor: {
         "ui-background-primary": "#ffffff",
-        "ui-background-secondary": "#f5f5f5",
+        "ui-background-secondary": "#f2f0ef",
         "ui-button-primary": "#000000",
         "ui-button-primary-hover": "#000000d6",
         "ui-button-secondary": "#f5f5f5",
