@@ -1,25 +1,23 @@
 import { useEffect, useState } from "react";
 import supabase from "../utils/supabase";
 
-interface Company {
+interface Country {
   id: number;
   name: string;
-  logoUrl: string;
 }
 
-export const useFetchCompanies = () => {
-  const [companies, setCompanies] = useState<Company[]>([]);
+export const useFetchCountries = () => {
+  const [countries, setCountries] = useState<Country[]>([]);
   const [error, setError] = useState<string>();
 
-  const fetchCompanies = async () => {
-    const { data, error } = await supabase.from("companies").select("*");
+  const fetchCountries = async () => {
+    const { data, error } = await supabase.from("countries").select("*");
 
     setError(error?.message); // ! set Error message
     if (!error) {
-      setCompanies(
+      setCountries(
         data.map((c) => ({
           id: c.id,
-          logoUrl: c.logo_url ?? "",
           name: c.name,
         }))
       );
@@ -27,8 +25,8 @@ export const useFetchCompanies = () => {
   };
 
   useEffect(() => {
-    fetchCompanies();
+    fetchCountries();
   }, []);
 
-  return { companies, error };
+  return { countries, error };
 };

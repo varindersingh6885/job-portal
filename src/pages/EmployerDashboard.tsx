@@ -19,7 +19,7 @@ export const EmployerDashboard = () => {
         </div>
       </div>
 
-      <div className="flex gap-4 mt-4 p-4">
+      <div className="flex gap-4 mt-4">
         <div>
           <JobFilter />
         </div>
@@ -33,14 +33,16 @@ export const EmployerDashboard = () => {
           </div>
 
           <div className="pt-4 border-0 border-t border-solid border-ui-background-secondary mt-4 flex flex-col gap-4">
-            {[1, 2, 3, 4, 5, 6, 7].map((_, index) => (
-              <div key={index} className="grid grid-cols-6">
-                <div>{index + 1}</div>
-                <div className="col-span-3">SDE {index + 1}</div>
-                <div>24 October 2023</div>
-                <div>30</div>
-              </div>
-            ))}
+            {Array(10)
+              .fill(0)
+              .map((_, index) => (
+                <div key={index} className="grid grid-cols-6">
+                  <div>{index + 1}</div>
+                  <div className="col-span-3">SDE {index + 1}</div>
+                  <div>24 October 2023</div>
+                  <div>30</div>
+                </div>
+              ))}
           </div>
         </div>
       </div>

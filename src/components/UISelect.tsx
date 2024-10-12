@@ -11,7 +11,7 @@ interface UISelectProps {
   ) => void;
 }
 
-interface UISelectItem {
+export interface UISelectItem {
   value: string | number;
   label: string;
 }
