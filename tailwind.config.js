@@ -9,6 +9,7 @@ export default {
         "ui-button-text-primary": "#ffffff",
         "ui-button-text-secondary": "#000000",
         "ui-text-danger": "#ff0000",
+        "ui-text-info-primary": "#0096FF",
       },
       boxShadow: {
         "ui-4": "0 0 4px 0 rgba(0, 0, 0, 0.2)",

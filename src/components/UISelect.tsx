@@ -18,6 +18,7 @@ interface UISelectProps {
   control: Control<FieldValues>;
   name: string;
   rules?: RegisterOptions;
+  isRequired?: boolean;
 }
 
 export interface UISelectItem {
@@ -35,10 +36,16 @@ export const UISelect = ({
   control,
   name,
   rules,
+  isRequired,
 }: UISelectProps) => {
   return (
     <div className="flex flex-col gap-1">
-      <label>{label}</label>
+      {label && (
+        <label>
+          {label}
+          {isRequired ? <span className="text-ui-text-danger">*</span> : null}
+        </label>
+      )}
 
       <Controller
         control={control}
