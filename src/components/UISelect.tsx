@@ -1,3 +1,9 @@
+import {
+  Control,
+  Controller,
+  FieldValues,
+  RegisterOptions,
+} from "react-hook-form";
 import Select, { MultiValue, SingleValue } from "react-select";
 
 interface UISelectProps {
@@ -9,6 +15,9 @@ interface UISelectProps {
   onChange?: (
     value: MultiValue<UISelectItem> | SingleValue<UISelectItem>
   ) => void;
+  control: Control<FieldValues>;
+  name: string;
+  rules?: RegisterOptions;
 }
 
 export interface UISelectItem {
@@ -23,18 +32,40 @@ export const UISelect = ({
   onChange,
   label,
   placeholder,
+  control,
+  name,
+  rules,
 }: UISelectProps) => {
   return (
     <div className="flex flex-col gap-1">
       <label>{label}</label>
-      <Select
-        placeholder={placeholder}
+
+      <Controller
+        control={control}
+        name={name}
         defaultValue={defaultValue}
-        isMulti={isMulti}
-        options={options}
-        className="basic-multi-select"
-        classNamePrefix="select"
-        onChange={onChange}
+        rules={{
+          ...rules,
+          onChange: (e) => {
+            onChange?.(e.target.value);
+          },
+        }}
+        render={({ field: { onChange, value }, fieldState: { error } }) => (
+          <div>
+            <Select
+              placeholder={placeholder}
+              defaultValue={value}
+              isMulti={isMulti}
+              options={options}
+              className="basic-multi-select"
+              classNamePrefix="select"
+              onChange={onChange}
+            />
+            {!!error?.message && (
+              <p className="text-ui-text-danger text-sm">{error.message}</p>
+            )}
+          </div>
+        )}
       />
     </div>
   );

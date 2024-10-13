@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { APP_ROUTES } from "../shared/constants";
+import { APP_ROUTES } from "../constants.ts/app-routes";
 
 export const AppHeader = () => {
   return (

@@ -1,6 +1,6 @@
 import { RouteObject } from "react-router-dom";
 import { LandingPage } from "./pages/Landing";
-import { APP_ROUTES } from "./shared/constants";
+import { APP_ROUTES } from "./constants.ts/app-routes";
 import { EmployerLogin } from "./pages/EmployerLogin";
 import { EmployerDashboard } from "./pages/EmployerDashboard";
 import { EmployerCreateJob } from "./pages/EmployerCreateJob";

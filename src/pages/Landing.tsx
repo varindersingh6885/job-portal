@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { Button } from "../components/Button";
-import { APP_ROUTES } from "../shared/constants";
+import { APP_ROUTES } from "../constants.ts/app-routes";
 
 export const LandingPage = () => {
   const navigate = useNavigate();

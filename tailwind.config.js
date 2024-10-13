@@ -8,6 +8,7 @@ export default {
         "ui-text-secondary": "#ffffff",
         "ui-button-text-primary": "#ffffff",
         "ui-button-text-secondary": "#000000",
+        "ui-text-danger": "#ff0000",
       },
       boxShadow: {
         "ui-4": "0 0 4px 0 rgba(0, 0, 0, 0.2)",
@@ -18,6 +19,9 @@ export default {
         "ui-button-primary": "#000000",
         "ui-button-primary-hover": "#000000d6",
         "ui-button-secondary": "#f5f5f5",
+      },
+      borderColor: {
+        "ui-input-primary": "hsl(0, 0%, 80%)",
       },
     },
   },
