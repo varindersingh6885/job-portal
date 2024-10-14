@@ -33,7 +33,7 @@ export const TextArea = ({
     <div>
       <div className="flex flex-col gap-1">
         {label ? (
-          <label htmlFor={name}>
+          <label htmlFor={name} className="text-sm">
             {label}
 
             {isRequired ? <span className="text-ui-text-danger">*</span> : null}
@@ -51,7 +51,7 @@ export const TextArea = ({
         />
       </div>
       {!!errorMessage?.message && (
-        <p className="text-ui-text-danger text-sm">{errorMessage.message}</p>
+        <p className="text-ui-text-danger text-xs">{errorMessage.message}</p>
       )}
     </div>
   );

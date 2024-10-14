@@ -8,7 +8,7 @@ interface Country {
 }
 
 export const useFetchCountries = () => {
-  const { session } = useSession();
+  const { session, isLoaded } = useSession();
 
   const [countries, setCountries] = useState<Country[]>([]);
   const [error, setError] = useState<string>();
@@ -34,8 +34,8 @@ export const useFetchCountries = () => {
   };
 
   useEffect(() => {
-    fetchCountries();
-  }, []);
+    if (isLoaded) fetchCountries();
+  }, [isLoaded]);
 
   return { countries, error };
 };

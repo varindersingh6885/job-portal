@@ -9,7 +9,7 @@ interface Company {
 }
 
 export const useFetchCompanies = () => {
-  const { session } = useSession();
+  const { session, isLoaded } = useSession();
   const [companies, setCompanies] = useState<Company[]>([]);
   const [error, setError] = useState<string>();
 
@@ -35,8 +35,8 @@ export const useFetchCompanies = () => {
   };
 
   useEffect(() => {
-    fetchCompanies();
-  }, []);
+    if (isLoaded) fetchCompanies();
+  }, [isLoaded]);
 
   return { companies, error };
 };

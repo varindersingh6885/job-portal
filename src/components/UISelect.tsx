@@ -41,7 +41,7 @@ export const UISelect = ({
   return (
     <div className="flex flex-col gap-1">
       {label && (
-        <label>
+        <label className="text-sm">
           {label}
           {isRequired ? <span className="text-ui-text-danger">*</span> : null}
         </label>
@@ -69,7 +69,7 @@ export const UISelect = ({
               onChange={onChange}
             />
             {!!error?.message && (
-              <p className="text-ui-text-danger text-sm">{error.message}</p>
+              <p className="text-ui-text-danger text-xs">{error.message}</p>
             )}
           </div>
         )}

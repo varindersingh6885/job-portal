@@ -10,6 +10,29 @@ import { useFetchCompanies } from "../apis/useFetchCompanies";
 import { useFetchCountries } from "../apis/useFetchCountries";
 import { useFetchStates } from "../apis/useFetchStates";
 import { useFetchCities } from "../apis/useFetchCities";
+import { TextArea } from "./TextArea";
+import { WORK_MODE_SELECT_ITEMS } from "../constants.ts/job-filters";
+import { FileUploader } from "./FileUploader";
+import { STORAGE_BUCKETS } from "../constants.ts/storage-buckets";
+import { useCreateJob } from "../apis/useCreateJob";
+
+const defaultValues = {
+  title: "",
+  description: "",
+  cityId: "",
+  stateId: "",
+  countryId: "",
+  maxExperience: "",
+  minExperience: "",
+  minSalary: "",
+  maxSalary: "",
+  skills: [], // ! need implement this feature
+  companyId: "",
+  workMode: "",
+  salary: "",
+  contactEmail: "",
+  contactNumber: "",
+};
 
 export const CreateJobForm = () => {
   const [selectedCountriesIds, setSelectedCountriesIds] = useState<number[]>(
@@ -17,18 +40,17 @@ export const CreateJobForm = () => {
   );
   const [selectedStatesIds, setSelectedStatesIds] = useState<number[]>([]);
 
-  const { register, control } = useForm<FieldValues>({
-    defaultValues: {
-      title: "",
-      experience: "",
-      company: "",
-      country: "",
-      state: "",
-      city: "",
-      employerName: "",
-      contactNumber: "",
-      contactEmail: "",
-    },
+  const {
+    register,
+    control,
+    formState: { errors },
+    setValue,
+    setError,
+    clearErrors,
+    reset,
+    handleSubmit,
+  } = useForm<FieldValues>({
+    defaultValues: defaultValues,
   });
 
   const navigate = useNavigate();
@@ -42,6 +64,8 @@ export const CreateJobForm = () => {
     selectedCountriesIds,
     selectedStatesIds
   );
+
+  const { createJob } = useCreateJob();
 
   const companiesOptions = useMemo(() => {
     return companies?.map((c) => ({
@@ -78,6 +102,35 @@ export const CreateJobForm = () => {
     }));
   }, [skills]);
 
+  const handleCreateJob = async (formData: FieldValues) => {
+    console.log("formData", formData);
+    if (createJob) {
+      const { error, status } = await createJob({
+        title: formData.title,
+        minExperience: formData.minExperience,
+        maxExperience: formData.maxExperience,
+        minSalary: formData.minSalary,
+        maxSalary: formData.maxSalary,
+        companyId: formData.company.value,
+        workMode: formData.workMode.value,
+        description: formData.jobRequirements,
+        countryId: formData.country.value,
+        stateId: formData.state.value,
+        cityId: formData.city.value,
+        contactEmail: formData.contactEmail,
+        contactNumber: formData.contactNumber,
+        descriptionDocumentUrl: formData.descriptionDocumentUrl,
+        descriptionDocumentFileName: formData.jobDescriptionDocumentFileName,
+      });
+
+      if (status === 201) {
+        navigate(APP_ROUTES.EMPLOYER_DASHBOARD);
+      } else {
+        console.log("error", error);
+      }
+    }
+  };
+
   return (
     <>
       <div className="grid lg:grid-cols-4 md:grid-cols-3 grid-cols-2 gap-4">
@@ -87,22 +140,61 @@ export const CreateJobForm = () => {
           placeholder="Enter job title"
           register={register}
           isRequired
+          rules={{ required: "Job title is required" }}
+          errorMessage={errors.title}
         />
 
         <TextInput
-          name="experience"
-          label="Experience"
-          placeholder="Enter experience"
+          name="minExperience"
+          label="Minimum experience"
+          placeholder="Enter minimum experience"
           register={register}
           isRequired
+          rules={{
+            required: "Minimum experience is required",
+            valueAsNumber: true,
+          }}
+          errorMessage={errors.minExperience}
+          type="number"
         />
 
         <TextInput
-          name="description"
-          label="Description"
-          placeholder="Enter Description"
+          name="maxExperience"
+          label="Maximum experience"
+          placeholder="Enter maximum experience"
           register={register}
           isRequired
+          rules={{
+            required: "Maximum experience is required",
+            valueAsNumber: true,
+          }}
+          errorMessage={errors.maxExperience}
+        />
+
+        <TextInput
+          name="minSalary"
+          label="Minimum salary (per hour)"
+          placeholder="Enter minimum salary"
+          register={register}
+          isRequired
+          rules={{
+            required: "Minimum salary is required",
+            valueAsNumber: true,
+          }}
+          errorMessage={errors.minSalary}
+        />
+
+        <TextInput
+          name="maxSalary"
+          label="Maximum salary (per hour)"
+          placeholder="Enter maximum salary"
+          register={register}
+          isRequired
+          rules={{
+            required: "Maximum salary is required",
+            valueAsNumber: true,
+          }}
+          errorMessage={errors.maxSalary}
         />
 
         <div>
@@ -119,7 +211,77 @@ export const CreateJobForm = () => {
           </p>
         </div>
 
-        <div>
+        <UISelect
+          label="Work mode"
+          placeholder="Select work mode"
+          options={WORK_MODE_SELECT_ITEMS}
+          name="workMode"
+          control={control}
+          isRequired
+          rules={{ required: "Work mode is required" }}
+        />
+
+        <div className="col-span-full">
+          <TextArea
+            name="jobRequirements"
+            label="Job requirements"
+            placeholder="Enter job requirements"
+            register={register}
+            isRequired
+            rows={3}
+            rules={{ required: "Job requirements is required" }}
+            errorMessage={errors.jobRequirements}
+          />
+        </div>
+
+        <div className="col-span-full grid grid-cols-3 gap-4">
+          <div>
+            <UISelect
+              label="Country"
+              placeholder="Select country"
+              options={countriesOptions}
+              control={control}
+              name="country"
+              isRequired
+              rules={{ required: "Country is required" }}
+            />
+            <p className="text-xs text-ui-text-info-primary cursor-pointer hover:underline pt-1">
+              Add new country
+            </p>
+          </div>
+
+          <div>
+            <UISelect
+              label="State"
+              placeholder="Select state"
+              options={statesOptions}
+              control={control}
+              name="state"
+              isRequired
+              rules={{ required: "State is required" }}
+            />
+            <p className="text-xs text-ui-text-info-primary cursor-pointer hover:underline pt-1">
+              Add new state
+            </p>
+          </div>
+
+          <div>
+            <UISelect
+              label="City"
+              placeholder="Select city"
+              options={citiesOptions}
+              control={control}
+              name="city"
+              isRequired
+              rules={{ required: "City is required" }}
+            />
+            <p className="text-xs text-ui-text-info-primary cursor-pointer hover:underline pt-1">
+              Add new city
+            </p>
+          </div>
+        </div>
+
+        <div className="col-span-full">
           <UISelect
             label="Skills"
             placeholder="Select relevant skills"
@@ -130,48 +292,6 @@ export const CreateJobForm = () => {
           />
           <p className="text-xs text-ui-text-info-primary cursor-pointer hover:underline pt-1">
             Add new skill
-          </p>
-        </div>
-
-        <div>
-          <UISelect
-            label="Country"
-            placeholder="Select country"
-            options={countriesOptions}
-            control={control}
-            name="country"
-            isRequired
-          />
-          <p className="text-xs text-ui-text-info-primary cursor-pointer hover:underline pt-1">
-            Add new country
-          </p>
-        </div>
-
-        <div>
-          <UISelect
-            label="State"
-            placeholder="Select state"
-            options={statesOptions}
-            control={control}
-            name="state"
-            isRequired
-          />
-          <p className="text-xs text-ui-text-info-primary cursor-pointer hover:underline pt-1">
-            Add new state
-          </p>
-        </div>
-
-        <div>
-          <UISelect
-            label="City"
-            placeholder="Select city"
-            options={citiesOptions}
-            control={control}
-            name="city"
-            isRequired
-          />
-          <p className="text-xs text-ui-text-info-primary cursor-pointer hover:underline pt-1">
-            Add new city
           </p>
         </div>
 
@@ -188,22 +308,31 @@ export const CreateJobForm = () => {
           placeholder="Enter contact email"
           register={register}
         />
+
+        <div className="col-span-full">
+          <FileUploader
+            setValue={setValue}
+            control={control}
+            fileNameFieldName="jobDescriptionDocumentFileName"
+            urlFieldName="descriptionDocumentUrl"
+            rules={{
+              required: "Job description document is required",
+            }}
+            allowedFormats={["pdf"]}
+            label="📄 Select job description document"
+            maxFileSizeInBytes={16000}
+            bucketName={STORAGE_BUCKETS.JOB_DESCRIPTION_DOCUMENTS}
+          />
+        </div>
       </div>
       <div className="grid grid-cols-2 gap-4 mt-6">
         <Button
           label="Clear"
           onClick={() => {
-            // ! assuming login is successful
-            navigate(APP_ROUTES.EMPLOYER_DASHBOARD);
+            reset(defaultValues);
           }}
         />
-        <Button
-          label="Post"
-          onClick={() => {
-            // ! assuming login is successful
-            navigate(APP_ROUTES.EMPLOYER_DASHBOARD);
-          }}
-        />
+        <Button label="Post" onClick={handleSubmit(handleCreateJob)} />
       </div>
     </>
   );

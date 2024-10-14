@@ -3,15 +3,18 @@ import { WORK_MODE } from "../constants.ts/job-filters";
 export interface JobCreatePayload {
   title: string;
   description: string;
+  descriptionDocumentUrl: string;
+  descriptionDocumentFileName: string;
   cityId: number;
   stateId: number;
   countryId: number;
-  experience: number;
+  maxExperience: number;
+  minExperience: number;
   minSalary: number;
-  skills: number[];
+  maxSalary: number;
+  // skills: number[]; // ! need to implement
   companyId: number;
   workMode: WORK_MODE;
-  salary: number;
   contactEmail: string;
   contactNumber: string;
 }

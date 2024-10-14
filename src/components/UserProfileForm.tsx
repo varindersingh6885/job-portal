@@ -267,6 +267,7 @@ export const UserProfileForm = () => {
 
         <div className="col-span-full">
           <FileSelector
+            label="📁 Select resume"
             handleError={() => null}
             handleFileChange={(file) => setValue("resumeFile", file)}
             type="button"

@@ -8,7 +8,7 @@ interface Skill {
 }
 
 export const useFetchSkills = () => {
-  const { session } = useSession();
+  const { session, isLoaded } = useSession();
   const [skills, setSkills] = useState<Skill[]>([]);
   const [error, setError] = useState<string>();
 
@@ -33,8 +33,8 @@ export const useFetchSkills = () => {
   };
 
   useEffect(() => {
-    fetchSkills();
-  }, []);
+    if (isLoaded) fetchSkills();
+  }, [isLoaded]);
 
   return { skills, error };
 };

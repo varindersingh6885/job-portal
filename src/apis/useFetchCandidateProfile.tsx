@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import supabaseClient from "../utils/supabase";
 
 export const useFetchCandidateProfile = () => {
-  const { session } = useSession();
+  const { session, isLoaded } = useSession();
   const { user } = useUser();
 
   const [profileData, setProfileData] = useState<CandidateProfile>();
@@ -47,8 +47,8 @@ export const useFetchCandidateProfile = () => {
   };
 
   useEffect(() => {
-    fetchProfile();
-  }, []);
+    if (isLoaded) fetchProfile();
+  }, [isLoaded]);
 
   return { profileData, error, isLoading };
 };

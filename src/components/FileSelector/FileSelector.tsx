@@ -10,6 +10,7 @@ interface FileSelectorProps {
   handleFileChange: (file: File | null) => void;
   handleError: (error: FILE_SELECTOR_ERROR) => void;
   onClick?: () => void;
+  label: string;
 }
 
 export const FileSelector = ({
@@ -19,6 +20,7 @@ export const FileSelector = ({
   handleFileChange,
   maxFileSizeInBytes,
   onClick,
+  label,
 }: FileSelectorProps) => {
   const hiddenFileInputRef = useRef<HTMLInputElement>(null);
 
@@ -63,7 +65,7 @@ export const FileSelector = ({
         onClick={handleBrowseClick}
         className="border border-1 border-solid border-ui-input-primary rounded-[4px] p-2 h-[38px] w-full outline-none"
       >
-        📁 Select Resume
+        {label}
       </button>
 
       <input

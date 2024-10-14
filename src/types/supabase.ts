@@ -81,10 +81,15 @@ export type Database = {
         Row: {
           city_id: number | null
           company_id: number | null
+          contact_email: string | null
+          contact_number: string | null
           country_id: number | null
           created_at: string
           description: string | null
+          description_document_name: string | null
+          description_document_url: string | null
           id: number
+          is_open: boolean | null
           max_experience: number | null
           max_salary: number | null
           min_experience: number | null
@@ -92,14 +97,20 @@ export type Database = {
           state_id: number | null
           title: string
           user_id: string | null
+          work_mode: Database["public"]["Enums"]["work_mode"] | null
         }
         Insert: {
           city_id?: number | null
           company_id?: number | null
+          contact_email?: string | null
+          contact_number?: string | null
           country_id?: number | null
           created_at?: string
           description?: string | null
+          description_document_name?: string | null
+          description_document_url?: string | null
           id?: number
+          is_open?: boolean | null
           max_experience?: number | null
           max_salary?: number | null
           min_experience?: number | null
@@ -107,14 +118,20 @@ export type Database = {
           state_id?: number | null
           title: string
           user_id?: string | null
+          work_mode?: Database["public"]["Enums"]["work_mode"] | null
         }
         Update: {
           city_id?: number | null
           company_id?: number | null
+          contact_email?: string | null
+          contact_number?: string | null
           country_id?: number | null
           created_at?: string
           description?: string | null
+          description_document_name?: string | null
+          description_document_url?: string | null
           id?: number
+          is_open?: boolean | null
           max_experience?: number | null
           max_salary?: number | null
           min_experience?: number | null
@@ -122,6 +139,7 @@ export type Database = {
           state_id?: number | null
           title?: string
           user_id?: string | null
+          work_mode?: Database["public"]["Enums"]["work_mode"] | null
         }
         Relationships: [
           {
@@ -306,7 +324,8 @@ export type Database = {
       }
     }
     Enums: {
-      [_ in never]: never
+      application_status: "applied" | "interviewing" | "hired" | "rejected"
+      work_mode: "remote" | "hybrid" | "onsite"
     }
     CompositeTypes: {
       [_ in never]: never

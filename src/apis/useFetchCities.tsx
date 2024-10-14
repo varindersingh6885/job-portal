@@ -11,7 +11,7 @@ export const useFetchCities = (
   selectedCountriesIds: number[],
   selectedStatesIds: number[]
 ) => {
-  const { session } = useSession();
+  const { session, isLoaded } = useSession();
 
   const [cities, setCities] = useState<City[]>([]);
   const [error, setError] = useState<string>();
@@ -50,8 +50,8 @@ export const useFetchCities = (
   };
 
   useEffect(() => {
-    fetchCities(selectedCountriesIds, selectedStatesIds);
-  }, [selectedCountriesIds, selectedStatesIds]);
+    if (isLoaded) fetchCities(selectedCountriesIds, selectedStatesIds);
+  }, [isLoaded, selectedCountriesIds, selectedStatesIds]);
 
   return { cities, error };
 };
