@@ -13,11 +13,11 @@ export const LandingPage = () => {
         <div className="grid grid-cols-2 gap-6">
           <Button
             label="Job Seeker"
-            onClick={() => navigate(APP_ROUTES.JOB_SEEKER_LOGIN)}
+            onClick={() => navigate(APP_ROUTES.JOB_SEEKER_ONBOARDING)}
           />
           <Button
             label="Employer"
-            onClick={() => navigate(APP_ROUTES.EMPLOYER_LOGIN)}
+            onClick={() => navigate(APP_ROUTES.EMPLOYER_ONBOARDING)}
           />
         </div>
       </div>

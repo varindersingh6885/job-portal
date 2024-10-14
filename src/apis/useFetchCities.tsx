@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import supabase from "../utils/supabase";
+import supabaseClient from "../utils/supabase";
+import { useSession } from "@clerk/clerk-react";
 
 interface City {
   id: number;
@@ -10,6 +11,8 @@ export const useFetchCities = (
   selectedCountriesIds: number[],
   selectedStatesIds: number[]
 ) => {
+  const { session } = useSession();
+
   const [cities, setCities] = useState<City[]>([]);
   const [error, setError] = useState<string>();
 
@@ -17,6 +20,12 @@ export const useFetchCities = (
     selectedCountriesIds: number[],
     selectedStatesIds: number[]
   ) => {
+    const supabaseAccessToken = await session?.getToken({
+      template: "supabase",
+    });
+
+    const supabase = await supabaseClient(supabaseAccessToken as string);
+
     const query = supabase.from("cities").select("*");
 
     //  ! figure out a way to do this

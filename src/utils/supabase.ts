@@ -3,6 +3,17 @@ import { Database } from "../types/supabase";
 
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
 const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
-const supabase = createClient<Database>(supabaseUrl, supabaseKey);
 
-export default supabase;
+const supabaseClient = async (supabaseAccessToken: string) => {
+  const supabase = createClient<Database>(supabaseUrl, supabaseKey, {
+    global: {
+      headers: {
+        Authorization: `Bearer ${supabaseAccessToken}`,
+      },
+    },
+  });
+
+  return supabase;
+};
+
+export default supabaseClient;

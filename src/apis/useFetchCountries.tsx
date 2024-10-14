@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import supabase from "../utils/supabase";
+import supabaseClient from "../utils/supabase";
+import { useSession } from "@clerk/clerk-react";
 
 interface Country {
   id: number;
@@ -7,10 +8,18 @@ interface Country {
 }
 
 export const useFetchCountries = () => {
+  const { session } = useSession();
+
   const [countries, setCountries] = useState<Country[]>([]);
   const [error, setError] = useState<string>();
 
   const fetchCountries = async () => {
+    const supabaseAccessToken = await session?.getToken({
+      template: "supabase",
+    });
+
+    const supabase = await supabaseClient(supabaseAccessToken as string);
+
     const { data, error } = await supabase.from("countries").select("*");
 
     setError(error?.message); // ! set Error message

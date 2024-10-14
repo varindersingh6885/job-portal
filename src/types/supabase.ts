@@ -77,6 +77,83 @@ export type Database = {
         }
         Relationships: []
       }
+      jobs: {
+        Row: {
+          city_id: number | null
+          company_id: number | null
+          country_id: number | null
+          created_at: string
+          description: string | null
+          id: number
+          max_experience: number | null
+          max_salary: number | null
+          min_experience: number | null
+          min_salary: number | null
+          state_id: number | null
+          title: string
+          user_id: string | null
+        }
+        Insert: {
+          city_id?: number | null
+          company_id?: number | null
+          country_id?: number | null
+          created_at?: string
+          description?: string | null
+          id?: number
+          max_experience?: number | null
+          max_salary?: number | null
+          min_experience?: number | null
+          min_salary?: number | null
+          state_id?: number | null
+          title: string
+          user_id?: string | null
+        }
+        Update: {
+          city_id?: number | null
+          company_id?: number | null
+          country_id?: number | null
+          created_at?: string
+          description?: string | null
+          id?: number
+          max_experience?: number | null
+          max_salary?: number | null
+          min_experience?: number | null
+          min_salary?: number | null
+          state_id?: number | null
+          title?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "jobs_city_id_fkey"
+            columns: ["city_id"]
+            isOneToOne: false
+            referencedRelation: "cities"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "jobs_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "jobs_country_id_fkey"
+            columns: ["country_id"]
+            isOneToOne: false
+            referencedRelation: "countries"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "jobs_state_id_fkey"
+            columns: ["state_id"]
+            isOneToOne: false
+            referencedRelation: "states"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       skills: {
         Row: {
           created_at: string
@@ -124,12 +201,109 @@ export type Database = {
           },
         ]
       }
+      user_profiles: {
+        Row: {
+          city_id: number | null
+          country_id: number | null
+          created_at: string
+          expected_salary: number | null
+          experience: number | null
+          first_name: string | null
+          github_username: string | null
+          id: number
+          last_name: string | null
+          profile_description: string | null
+          resume_url: string | null
+          state_id: number | null
+          user_id: string | null
+        }
+        Insert: {
+          city_id?: number | null
+          country_id?: number | null
+          created_at?: string
+          expected_salary?: number | null
+          experience?: number | null
+          first_name?: string | null
+          github_username?: string | null
+          id?: number
+          last_name?: string | null
+          profile_description?: string | null
+          resume_url?: string | null
+          state_id?: number | null
+          user_id?: string | null
+        }
+        Update: {
+          city_id?: number | null
+          country_id?: number | null
+          created_at?: string
+          expected_salary?: number | null
+          experience?: number | null
+          first_name?: string | null
+          github_username?: string | null
+          id?: number
+          last_name?: string | null
+          profile_description?: string | null
+          resume_url?: string | null
+          state_id?: number | null
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_profiles_city_id_fkey"
+            columns: ["city_id"]
+            isOneToOne: false
+            referencedRelation: "cities"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "user_profiles_country_id_fkey"
+            columns: ["country_id"]
+            isOneToOne: false
+            referencedRelation: "countries"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "user_profiles_state_id_fkey"
+            columns: ["state_id"]
+            isOneToOne: false
+            referencedRelation: "states"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      users: {
+        Row: {
+          created_at: string
+          email_id: string
+          id: number
+          name: string
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          email_id: string
+          id?: number
+          name: string
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          email_id?: string
+          id?: number
+          name?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      requesting_user_id: {
+        Args: Record<PropertyKey, never>
+        Returns: string
+      }
     }
     Enums: {
       [_ in never]: never
