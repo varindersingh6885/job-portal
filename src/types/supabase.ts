@@ -79,67 +79,67 @@ export type Database = {
       }
       jobs: {
         Row: {
-          city_id: number | null
-          company_id: number | null
+          city_id: number
+          company_id: number
           contact_email: string | null
           contact_number: string | null
-          country_id: number | null
+          country_id: number
           created_at: string
-          description: string | null
+          description: string
           description_document_name: string | null
           description_document_url: string | null
           id: number
-          is_open: boolean | null
+          is_open: boolean
           max_experience: number | null
           max_salary: number | null
           min_experience: number | null
           min_salary: number | null
-          state_id: number | null
+          state_id: number
           title: string
-          user_id: string | null
-          work_mode: Database["public"]["Enums"]["work_mode"] | null
+          user_id: string
+          work_mode: Database["public"]["Enums"]["work_mode"]
         }
         Insert: {
-          city_id?: number | null
-          company_id?: number | null
+          city_id: number
+          company_id: number
           contact_email?: string | null
           contact_number?: string | null
-          country_id?: number | null
+          country_id: number
           created_at?: string
-          description?: string | null
+          description: string
           description_document_name?: string | null
           description_document_url?: string | null
           id?: number
-          is_open?: boolean | null
+          is_open?: boolean
           max_experience?: number | null
           max_salary?: number | null
           min_experience?: number | null
           min_salary?: number | null
-          state_id?: number | null
+          state_id: number
           title: string
-          user_id?: string | null
-          work_mode?: Database["public"]["Enums"]["work_mode"] | null
+          user_id?: string
+          work_mode: Database["public"]["Enums"]["work_mode"]
         }
         Update: {
-          city_id?: number | null
-          company_id?: number | null
+          city_id?: number
+          company_id?: number
           contact_email?: string | null
           contact_number?: string | null
-          country_id?: number | null
+          country_id?: number
           created_at?: string
-          description?: string | null
+          description?: string
           description_document_name?: string | null
           description_document_url?: string | null
           id?: number
-          is_open?: boolean | null
+          is_open?: boolean
           max_experience?: number | null
           max_salary?: number | null
           min_experience?: number | null
           min_salary?: number | null
-          state_id?: number | null
+          state_id?: number
           title?: string
-          user_id?: string | null
-          work_mode?: Database["public"]["Enums"]["work_mode"] | null
+          user_id?: string
+          work_mode?: Database["public"]["Enums"]["work_mode"]
         }
         Relationships: [
           {

@@ -7,6 +7,8 @@ import { EmployerCreateJob } from "./pages/EmployerCreateJob";
 import { AppLayout } from "./components/AppLayout";
 import { JobSeekerLogin } from "./pages/JobSeekerLogin";
 import { UserProfile } from "./pages/UserProfile";
+import { JobSeekerDashboard } from "./pages/JobSeekerDashboard";
+import { JobSeekerSearchJobs } from "./pages/JobSeekerSearchJobs";
 
 export const useAppRoutes = (): RouteObject[] => {
   return [
@@ -24,7 +26,11 @@ export const useAppRoutes = (): RouteObject[] => {
         },
         {
           path: APP_ROUTES.JOB_SEEKER_DASHBOARD,
-          element: <div>job seekder home</div>,
+          element: <JobSeekerDashboard />,
+        },
+        {
+          path: APP_ROUTES.JOB_SEEKER_SEARCH_JOBS,
+          element: <JobSeekerSearchJobs />,
         },
         {
           path: APP_ROUTES.EMPLOYER_ONBOARDING,

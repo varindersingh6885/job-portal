@@ -20,6 +20,7 @@ export default {
         "ui-button-primary": "#000000",
         "ui-button-primary-hover": "#000000d6",
         "ui-button-secondary": "#f5f5f5",
+        "ui-background-primary-highlight": "#EEF7FF",
       },
       borderColor: {
         "ui-input-primary": "hsl(0, 0%, 80%)",

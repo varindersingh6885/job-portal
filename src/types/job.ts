@@ -18,3 +18,16 @@ export interface JobCreatePayload {
   contactEmail: string;
   contactNumber: string;
 }
+
+export interface JobListItem {
+  id: number;
+  title: string;
+  country: string;
+  city: string;
+  state: string;
+  company: string;
+  companyUrl: string;
+  createdAt: string;
+  workMode: string;
+  jobStatus: boolean;
+}
