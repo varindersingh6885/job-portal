@@ -16,6 +16,7 @@ interface TextInputProps {
   rules?: RegisterOptions;
   errorMessage?: DeepMap<FieldValues, FieldError>;
   isRequired?: boolean;
+  onBlur?: () => void;
 }
 
 export const TextInput = ({
@@ -28,6 +29,7 @@ export const TextInput = ({
   rules,
   errorMessage,
   isRequired,
+  onBlur,
 }: TextInputProps) => {
   return (
     <div>
@@ -48,6 +50,7 @@ export const TextInput = ({
             ...rules,
             onChange,
           })}
+          onBlur={onBlur}
         />
       </div>
       {!!errorMessage?.message && (

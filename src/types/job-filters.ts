@@ -11,4 +11,5 @@ export interface JobFilters {
   title?: string;
   workMode?: WORK_MODE;
   jobStatus?: JOB_STATUS;
+  skillsIds?: number[];
 }

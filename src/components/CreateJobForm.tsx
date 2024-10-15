@@ -4,7 +4,7 @@ import { TextInput } from "./TextInput";
 import { useNavigate } from "react-router-dom";
 import { APP_ROUTES } from "../constants.ts/app-routes";
 import { FieldValues, useForm } from "react-hook-form";
-import { UISelect } from "./UISelect";
+import { UISelect, UISelectItem } from "./UISelect";
 import { useFetchSkills } from "../apis/useFetchSkills";
 import { useFetchCompanies } from "../apis/useFetchCompanies";
 import { useFetchCountries } from "../apis/useFetchCountries";
@@ -45,8 +45,7 @@ export const CreateJobForm = () => {
     control,
     formState: { errors },
     setValue,
-    setError,
-    clearErrors,
+
     reset,
     handleSubmit,
   } = useForm<FieldValues>({
@@ -121,6 +120,7 @@ export const CreateJobForm = () => {
         contactNumber: formData.contactNumber,
         descriptionDocumentUrl: formData.descriptionDocumentUrl,
         descriptionDocumentFileName: formData.jobDescriptionDocumentFileName,
+        skills: formData.skills.map((s: UISelectItem) => s.value),
       });
 
       if (status === 201) {

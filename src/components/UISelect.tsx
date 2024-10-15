@@ -57,22 +57,24 @@ export const UISelect = ({
             onChange?.(e.target.value);
           },
         }}
-        render={({ field: { onChange, value }, fieldState: { error } }) => (
-          <div>
-            <Select
-              placeholder={placeholder}
-              defaultValue={value}
-              isMulti={isMulti}
-              options={options}
-              className="basic-multi-select"
-              classNamePrefix="select"
-              onChange={onChange}
-            />
-            {!!error?.message && (
-              <p className="text-ui-text-danger text-xs">{error.message}</p>
-            )}
-          </div>
-        )}
+        render={({ field: { onChange, value }, fieldState: { error } }) => {
+          return (
+            <div key={new Date().getTime()}>
+              <Select
+                placeholder={placeholder}
+                defaultValue={value}
+                isMulti={isMulti}
+                options={options}
+                className="basic-multi-select"
+                classNamePrefix="select"
+                onChange={onChange}
+              />
+              {!!error?.message && (
+                <p className="text-ui-text-danger text-xs">{error.message}</p>
+              )}
+            </div>
+          );
+        }}
       />
     </div>
   );

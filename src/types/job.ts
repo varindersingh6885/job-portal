@@ -12,7 +12,7 @@ export interface JobCreatePayload {
   minExperience: number;
   minSalary: number;
   maxSalary: number;
-  // skills: number[]; // ! need to implement
+  skills: number[];
   companyId: number;
   workMode: WORK_MODE;
   contactEmail: string;

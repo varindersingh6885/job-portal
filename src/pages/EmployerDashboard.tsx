@@ -4,10 +4,13 @@ import { APP_ROUTES } from "../constants.ts/app-routes";
 import { JobFilter } from "../components/JobFilter";
 import { EmployerJobList } from "../components/EmployerJobList";
 import { useFetchCreatedJobs } from "../apis/useFetchCreatedJobs";
+import { JobFilters } from "../types/job-filters";
+import { useState } from "react";
 
 export const EmployerDashboard = () => {
   const navigate = useNavigate();
-  const { error, jobs } = useFetchCreatedJobs();
+  const [jobFilters, setJobFilters] = useState<JobFilters>({});
+  const { error, jobs } = useFetchCreatedJobs(jobFilters);
 
   return (
     <div className="px-4 py-2 text-ui-text-primary">
@@ -24,11 +27,7 @@ export const EmployerDashboard = () => {
 
       <div className="flex gap-4 mt-4 pb-4">
         <div>
-          <JobFilter
-            onApplyFilters={() => {
-              console.log("handle apply filters");
-            }}
-          />
+          <JobFilter onApplyFilters={setJobFilters} />
         </div>
         <EmployerJobList jobs={jobs} />
       </div>

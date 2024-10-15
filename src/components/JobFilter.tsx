@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { UISelect } from "./UISelect";
+import { UISelect, UISelectItem } from "./UISelect";
 import { useFetchCompanies } from "../apis/useFetchCompanies";
 import { useFetchCountries } from "../apis/useFetchCountries";
 import { useFetchStates } from "../apis/useFetchStates";
@@ -9,19 +9,26 @@ import { JobFilters } from "../types/job-filters";
 import { TextInput } from "./TextInput";
 import { useFetchSkills } from "../apis/useFetchSkills";
 import { FieldValues, useForm } from "react-hook-form";
+import { WORK_MODE_SELECT_ITEMS } from "../constants.ts/job-filters";
 
 interface JobFilterProps {
   onApplyFilters: (filters: JobFilters) => void;
 }
 
+const defaultValues = {
+  experience: "",
+  keyword: "",
+  countries: [],
+  states: [],
+  cities: [],
+  companies: [],
+  skills: [],
+  workMode: "",
+};
+
 export const JobFilter = ({ onApplyFilters }: JobFilterProps) => {
-  const { register, control } = useForm<FieldValues>({
-    defaultValues: {
-      experience: "",
-      keyword: "",
-      selectedCountriesIds: [],
-      selectedStatesIds: [],
-    },
+  const { register, control, getValues, reset } = useForm<FieldValues>({
+    defaultValues: defaultValues,
   });
 
   const [selectedCountriesIds, setSelectedCountriesIds] = useState<number[]>(
@@ -77,10 +84,25 @@ export const JobFilter = ({ onApplyFilters }: JobFilterProps) => {
   }, [skills]);
 
   const onApplyFiltersHandler = () => {
+    const formData = getValues();
     onApplyFilters({
       countryIds: selectedCountriesIds,
       stateIds: selectedStatesIds,
+      cityIds: formData.cities.map((c: UISelectItem) => c.value),
+      companyIds: formData.companies.map((c: UISelectItem) => c.value),
+      experience: formData.experience,
+      keyword: formData.keyword,
+      title: formData.keyword,
+      workMode: formData.workMode?.value,
+      skillsIds: formData.skills.map((s: UISelectItem) => s.value),
     });
+  };
+
+  const clearFiltersHandler = () => {
+    reset(defaultValues);
+    setSelectedCountriesIds([]);
+    setSelectedStatesIds([]);
+    onApplyFilters({});
   };
 
   return (
@@ -94,6 +116,9 @@ export const JobFilter = ({ onApplyFilters }: JobFilterProps) => {
           label="Experience"
           placeholder="Enter experience in years"
           register={register}
+          rules={{
+            valueAsNumber: true,
+          }}
         />
 
         <UISelect
@@ -120,7 +145,7 @@ export const JobFilter = ({ onApplyFilters }: JobFilterProps) => {
           options={countriesOptions}
           isMulti
           control={control}
-          name="selectedCountriesIds"
+          name="countries"
           onChange={(value) => {
             if (Array.isArray(value)) {
               setSelectedCountriesIds(value.map((c) => c.value));
@@ -134,7 +159,7 @@ export const JobFilter = ({ onApplyFilters }: JobFilterProps) => {
           options={statesOptions}
           isMulti
           control={control}
-          name="selectedStatesIds"
+          name="states"
           onChange={(value) => {
             if (Array.isArray(value)) {
               setSelectedStatesIds(value.map((c) => c.value));
@@ -148,17 +173,26 @@ export const JobFilter = ({ onApplyFilters }: JobFilterProps) => {
           options={citiesOptions}
           isMulti
           control={control}
-          name="selectedCitiesIds"
+          name="cities"
+        />
+
+        <UISelect
+          label="Work mode"
+          placeholder="Select work mode"
+          options={WORK_MODE_SELECT_ITEMS}
+          name="workMode"
+          control={control}
         />
 
         <TextInput
-          name="Keyword"
+          name="keyword"
           label="Keyword"
           placeholder="Keyword"
           register={register}
         />
 
-        <div className="flex flex-col mt-2">
+        <div className="flex mt-2 gap-3">
+          <Button label="Clear filters" onClick={clearFiltersHandler} />
           <Button label="Apply filters" onClick={onApplyFiltersHandler} />
         </div>
       </div>

@@ -11,10 +11,17 @@ export const JobSeekerDashboard = () => {
         <div className="flex justify-between items-center">
           <h1>Jobs posted </h1>
 
-          <Button
-            label="Search jobs"
-            onClick={() => navigate(APP_ROUTES.JOB_SEEKER_SEARCH_JOBS)}
-          />
+          <div className="flex gap-4">
+            <Button
+              label="Manage profile"
+              onClick={() => navigate(APP_ROUTES.USER_PROFILE)}
+            />
+
+            <Button
+              label="Search jobs"
+              onClick={() => navigate(APP_ROUTES.JOB_SEEKER_SEARCH_JOBS)}
+            />
+          </div>
         </div>
       </div>
 

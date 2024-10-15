@@ -3,7 +3,6 @@ import { JobListItem } from "../types/job";
 import { JobListCard } from "./JobListCard";
 
 export const EmployerJobList = ({ jobs }: { jobs: JobListItem[] }) => {
-  console.log("jobs fetched", jobs);
   return (
     <div className="bg-ui-background-primary rounded-lg px-2 py-2 flex-1 flex flex-col gap-1">
       {jobs.map((jobDetail) => (
