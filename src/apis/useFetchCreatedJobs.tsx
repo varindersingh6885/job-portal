@@ -19,6 +19,7 @@ export const useFetchCreatedJobs = (jobFilters: JobFilters) => {
       .select(
         "id, title, created_at, is_open, work_mode, companies(*), cities(*), states(*), countries(*), skills (name)"
       )
+      .order("created_at", { ascending: false })
       .eq("user_id", user?.id);
 
     // Apply filters based on the input
