@@ -116,7 +116,6 @@ export const UserProfileForm = () => {
   }, [skills]);
 
   const handleCreateJob = async (formData: FieldValues) => {
-    console.log("formData", formData);
     if (createUpdateCandidateProfile) {
       const { error, status } = await createUpdateCandidateProfile(
         {

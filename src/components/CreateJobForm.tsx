@@ -102,7 +102,6 @@ export const CreateJobForm = () => {
   }, [skills]);
 
   const handleCreateJob = async (formData: FieldValues) => {
-    console.log("formData", formData);
     if (createJob) {
       const { error, status } = await createJob({
         title: formData.title,

@@ -79,7 +79,6 @@ export const useJobSearch = (jobFilters: JobFilters) => {
 
     setError(error?.message); // ! set Error message
     if (!error) {
-      console.log("jobs list data", data);
       setJobs(
         data.map((c) => ({
           id: c.id,
