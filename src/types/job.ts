@@ -1,3 +1,4 @@
+import { UISelectItem } from "../components/UISelect";
 import { WORK_MODE } from "../constants.ts/job-filters";
 
 export interface JobCreatePayload {
@@ -15,6 +16,29 @@ export interface JobCreatePayload {
   skills: number[];
   companyId: number;
   workMode: WORK_MODE;
+  contactEmail: string;
+  contactNumber: string;
+}
+
+export interface JobDetails {
+  id: number;
+  title: string;
+  companyName: string;
+  companyLogoUrl: string;
+  createdAt: string;
+  workMode: string;
+  jobStatus: boolean;
+  description: string;
+  descriptionDocumentUrl: string;
+  descriptionDocumentFileName: string;
+  city: string;
+  state: string;
+  country: string;
+  maxExperience: number;
+  minExperience: number;
+  minSalary: number;
+  maxSalary: number;
+  skills: string[];
   contactEmail: string;
   contactNumber: string;
 }

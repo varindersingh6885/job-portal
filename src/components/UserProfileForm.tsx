@@ -32,6 +32,7 @@ const defaultValues: CandidateProfile = {
   resumeUrl: "",
   githubUsername: "",
   phoneNumber: "",
+  resumeName: "",
 };
 
 export const UserProfileForm = () => {
@@ -136,8 +137,8 @@ export const UserProfileForm = () => {
         user?.id as string
       );
 
-      if (status === 201) {
-        navigate(APP_ROUTES.EMPLOYER_DASHBOARD);
+      if (status.toString().startsWith("2")) {
+        navigate(APP_ROUTES.JOB_SEEKER_DASHBOARD);
       } else {
         console.log("error", error);
       }

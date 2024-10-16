@@ -5,6 +5,9 @@ export enum APP_ROUTES {
   JOB_SEEKER_ONBOARDING = "/onboarding",
   JOB_SEEKER_DASHBOARD = "/dashboard",
   JOB_SEEKER_SEARCH_JOBS = "/search",
+  JOB_SEEKER_VIEW_JOB = "/job/:jobId",
+
+  JOB_SEEKER_APPLY_JOB = "/apply/:jobId",
 
   // Employer routes
   EMPLOYER_ONBOARDING = "/employer/onboarding",

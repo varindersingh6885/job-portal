@@ -16,12 +16,11 @@ export const JobListCard = ({
   country,
   city,
   state,
-  createdAt,
   workMode,
 }: JobListCardProps) => {
   return (
-    <div className="px-4 py-2 hover:bg-ui-background-primary-highlight rounded-sm hover:cursor-pointer">
-      <div className="flex justify-between">
+    <div className="px-4 py-2">
+      <div className="flex justify-between items-center">
         <div className="flex gap-2 ">
           <div className="flex items-center px-2 rounded-md">
             <img
@@ -40,10 +39,6 @@ export const JobListCard = ({
             </div>
             <p className="text-sm">{workMode}</p>
           </div>
-        </div>
-        <div className="flex flex-col items-end gap-1">
-          <p className="text-xs">Created at</p>
-          {createdAt}
         </div>
       </div>
     </div>

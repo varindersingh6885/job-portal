@@ -24,6 +24,7 @@ export default {
       },
       borderColor: {
         "ui-input-primary": "hsl(0, 0%, 80%)",
+        "ui-border-primary": "hsl(0, 0%, 80%)",
       },
     },
   },

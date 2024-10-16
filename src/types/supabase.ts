@@ -9,6 +9,53 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      applications: {
+        Row: {
+          candidate_id: string | null
+          candidate_note: string | null
+          created_at: string
+          expected_salary: number | null
+          id: number
+          job_id: number | null
+          manual_application: boolean | null
+          resume_name: string | null
+          resume_url: string | null
+          status: Database["public"]["Enums"]["application_status"] | null
+        }
+        Insert: {
+          candidate_id?: string | null
+          candidate_note?: string | null
+          created_at?: string
+          expected_salary?: number | null
+          id?: number
+          job_id?: number | null
+          manual_application?: boolean | null
+          resume_name?: string | null
+          resume_url?: string | null
+          status?: Database["public"]["Enums"]["application_status"] | null
+        }
+        Update: {
+          candidate_id?: string | null
+          candidate_note?: string | null
+          created_at?: string
+          expected_salary?: number | null
+          id?: number
+          job_id?: number | null
+          manual_application?: boolean | null
+          resume_name?: string | null
+          resume_url?: string | null
+          status?: Database["public"]["Enums"]["application_status"] | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "applications_job_id_fkey"
+            columns: ["job_id"]
+            isOneToOne: false
+            referencedRelation: "jobs"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       cities: {
         Row: {
           created_at: string
@@ -119,14 +166,14 @@ export type Database = {
           country_id: number
           created_at: string
           description: string
-          description_document_name: string | null
-          description_document_url: string | null
+          description_document_name: string
+          description_document_url: string
           id: number
           is_open: boolean
-          max_experience: number | null
-          max_salary: number | null
-          min_experience: number | null
-          min_salary: number | null
+          max_experience: number
+          max_salary: number
+          min_experience: number
+          min_salary: number
           state_id: number
           title: string
           user_id: string
@@ -140,14 +187,14 @@ export type Database = {
           country_id: number
           created_at?: string
           description: string
-          description_document_name?: string | null
-          description_document_url?: string | null
+          description_document_name: string
+          description_document_url: string
           id?: number
           is_open?: boolean
-          max_experience?: number | null
-          max_salary?: number | null
-          min_experience?: number | null
-          min_salary?: number | null
+          max_experience: number
+          max_salary: number
+          min_experience: number
+          min_salary: number
           state_id: number
           title: string
           user_id?: string
@@ -161,14 +208,14 @@ export type Database = {
           country_id?: number
           created_at?: string
           description?: string
-          description_document_name?: string | null
-          description_document_url?: string | null
+          description_document_name?: string
+          description_document_url?: string
           id?: number
           is_open?: boolean
-          max_experience?: number | null
-          max_salary?: number | null
-          min_experience?: number | null
-          min_salary?: number | null
+          max_experience?: number
+          max_salary?: number
+          min_experience?: number
+          min_salary?: number
           state_id?: number
           title?: string
           user_id?: string
