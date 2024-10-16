@@ -252,51 +252,99 @@ export type Database = {
           },
         ]
       }
+      user_profile_skills: {
+        Row: {
+          created_at: string
+          id: number
+          skill_id: number | null
+          user_id: string | null
+          user_profile_id: number | null
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          skill_id?: number | null
+          user_id?: string | null
+          user_profile_id?: number | null
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          skill_id?: number | null
+          user_id?: string | null
+          user_profile_id?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_profile_skills_skill_id_fkey"
+            columns: ["skill_id"]
+            isOneToOne: false
+            referencedRelation: "skills"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "user_profile_skills_user_profile_id_fkey"
+            columns: ["user_profile_id"]
+            isOneToOne: false
+            referencedRelation: "user_profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       user_profiles: {
         Row: {
           city_id: number | null
           country_id: number | null
           created_at: string
+          email: string | null
           expected_salary: number | null
           experience: number | null
           first_name: string | null
           github_username: string | null
           id: number
           last_name: string | null
+          phone_number: string | null
           profile_description: string | null
+          resume_name: string | null
           resume_url: string | null
           state_id: number | null
-          user_id: string | null
+          user_id: string
         }
         Insert: {
           city_id?: number | null
           country_id?: number | null
           created_at?: string
+          email?: string | null
           expected_salary?: number | null
           experience?: number | null
           first_name?: string | null
           github_username?: string | null
           id?: number
           last_name?: string | null
+          phone_number?: string | null
           profile_description?: string | null
+          resume_name?: string | null
           resume_url?: string | null
           state_id?: number | null
-          user_id?: string | null
+          user_id?: string
         }
         Update: {
           city_id?: number | null
           country_id?: number | null
           created_at?: string
+          email?: string | null
           expected_salary?: number | null
           experience?: number | null
           first_name?: string | null
           github_username?: string | null
           id?: number
           last_name?: string | null
+          phone_number?: string | null
           profile_description?: string | null
+          resume_name?: string | null
           resume_url?: string | null
           state_id?: number | null
-          user_id?: string | null
+          user_id?: string
         }
         Relationships: [
           {

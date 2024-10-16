@@ -1,10 +1,10 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Button } from "./Button";
 import { TextInput } from "./TextInput";
 import { useNavigate } from "react-router-dom";
 import { APP_ROUTES } from "../constants.ts/app-routes";
 import { FieldValues, useForm } from "react-hook-form";
-import { UISelect } from "./UISelect";
+import { UISelect, UISelectItem } from "./UISelect";
 import { useFetchSkills } from "../apis/useFetchSkills";
 import { useFetchCompanies } from "../apis/useFetchCompanies";
 import { useFetchCountries } from "../apis/useFetchCountries";
@@ -13,9 +13,11 @@ import { useFetchCities } from "../apis/useFetchCities";
 import { TextArea } from "./TextArea";
 import { FileUploader } from "./FileUploader";
 import { STORAGE_BUCKETS } from "../constants.ts/storage-buckets";
-import { useCreateJob } from "../apis/useCreateJob";
 import { CandidateProfile } from "../types/candidate-profile";
 import { GithubProjects } from "./GithubProjects";
+import { useCreateUpdateCandidateProfile } from "../apis/useCreateUpdateCandidateProfile";
+import { useFetchCandidateProfile } from "../apis/useFetchCandidateProfile";
+import { useUser } from "@clerk/clerk-react";
 
 const defaultValues: CandidateProfile = {
   firstName: "",
@@ -26,9 +28,10 @@ const defaultValues: CandidateProfile = {
   stateId: 0,
   cityId: 0,
   skills: [],
-  experience: 0,
+  experience: "",
   resumeUrl: "",
   githubUsername: "",
+  phoneNumber: "",
 };
 
 export const UserProfileForm = () => {
@@ -36,6 +39,8 @@ export const UserProfileForm = () => {
     []
   );
   const [selectedStatesIds, setSelectedStatesIds] = useState<number[]>([]);
+
+  const { profileData, error, isLoading } = useFetchCandidateProfile();
   const [githubUsername, setGithubUsername] = useState<string>("");
 
   const {
@@ -53,6 +58,13 @@ export const UserProfileForm = () => {
     defaultValues: defaultValues,
   });
 
+  useEffect(() => {
+    if (profileData) {
+      reset(profileData);
+      setGithubUsername(profileData.githubUsername ?? "");
+    }
+  }, [profileData, reset]);
+
   const navigate = useNavigate();
 
   const { skills, error: skillsFetchError } = useFetchSkills();
@@ -65,7 +77,8 @@ export const UserProfileForm = () => {
     selectedStatesIds
   );
 
-  const { createJob } = useCreateJob();
+  const { user } = useUser();
+  const { createUpdateCandidateProfile } = useCreateUpdateCandidateProfile();
 
   const companiesOptions = useMemo(() => {
     return companies?.map((c) => ({
@@ -104,24 +117,25 @@ export const UserProfileForm = () => {
 
   const handleCreateJob = async (formData: FieldValues) => {
     console.log("formData", formData);
-    if (createJob) {
-      const { error, status } = await createJob({
-        title: formData.title,
-        minExperience: formData.minExperience,
-        maxExperience: formData.maxExperience,
-        minSalary: formData.minSalary,
-        maxSalary: formData.maxSalary,
-        companyId: formData.company.value,
-        workMode: formData.workMode.value,
-        description: formData.jobRequirements,
-        countryId: formData.country.value,
-        stateId: formData.state.value,
-        cityId: formData.city.value,
-        contactEmail: formData.contactEmail,
-        contactNumber: formData.contactNumber,
-        descriptionDocumentUrl: formData.descriptionDocumentUrl,
-        descriptionDocumentFileName: formData.jobDescriptionDocumentFileName,
-      });
+    if (createUpdateCandidateProfile) {
+      const { error, status } = await createUpdateCandidateProfile(
+        {
+          cityId: formData.city.value,
+          countryId: formData.country.value,
+          stateId: formData.state.value,
+          firstName: formData.firstName,
+          lastName: formData.lastName,
+          email: formData.email,
+          experience: formData.experience,
+          githubUsername: githubUsername,
+          profileDescription: formData.profileDescription,
+          resumeUrl: formData.resumeUrl,
+          resumeName: formData.resumeFileName,
+          skills: formData.skills.map((s: UISelectItem) => s.value),
+          phoneNumber: formData.contactNumber,
+        },
+        user?.id as string
+      );
 
       if (status === 201) {
         navigate(APP_ROUTES.EMPLOYER_DASHBOARD);
@@ -263,25 +277,25 @@ export const UserProfileForm = () => {
           <FileUploader
             setValue={setValue}
             control={control}
-            fileNameFieldName="resumeFileName"
+            fileNameFieldName="resumeName"
             urlFieldName="resumeUrl"
             rules={{
               required: "Resume is required",
             }}
             allowedFormats={["pdf"]}
-            label="📄 Select resume"
+            label={`📄 ${watch("resumeName") ?? "Select resume"}`}
             maxFileSizeInBytes={60000}
             bucketName={STORAGE_BUCKETS.RESUMES}
           />
         </div>
 
         <TextInput
-          name="gihubUsername"
+          name="githubUsername"
           label="Github username"
           placeholder="Enter github username"
           register={register}
           onBlur={() => {
-            setGithubUsername(getValues("gihubUsername"));
+            setGithubUsername(getValues("githubUsername"));
           }}
         />
 
