@@ -2,20 +2,46 @@ import { useEffect, useState } from "react";
 import { JobListItem } from "../types/job";
 import { useSupabase } from "./useSupabase";
 import { JobFilters } from "../types/job-filters";
+import { useUser } from "@clerk/clerk-react";
 
 export const useJobSearch = (jobFilters: JobFilters) => {
   const [jobs, setJobs] = useState<JobListItem[]>([]);
   const [error, setError] = useState<string>();
   const { supabase } = useSupabase();
+  const { user, isLoaded } = useUser();
 
-  const fetchJobs = async (jobFilters: JobFilters) => {
+  const fetchJobs = async (jobFilters: JobFilters, userId: string) => {
     if (!supabase) return;
+
+    const { data: appliedJobs, error: appliedJobsError } = await supabase
+      .from("applications")
+      .select("job_id")
+      .eq("candidate_id", userId);
+
+    if (appliedJobsError) {
+      console.error(appliedJobsError);
+      return;
+    }
+
+    const appliedJobIds = appliedJobs.map((application) => application.job_id);
 
     let query = supabase
       .from("jobs")
       .select(
-        "id, title, created_at, is_open, work_mode, companies(*), cities(*), states(*), countries(*), skills (name)"
+        `
+    id, 
+    title, 
+    created_at, 
+    is_open, 
+    work_mode, 
+    companies(*), 
+    cities(*), 
+    states(*), 
+    countries(*), 
+    skills (name)
+    `
       )
+      .not("id", "in", `(${appliedJobIds.join(",")})`)
       .order("created_at", { ascending: false });
 
     // Apply filters based on the input
@@ -97,8 +123,8 @@ export const useJobSearch = (jobFilters: JobFilters) => {
   };
 
   useEffect(() => {
-    if (supabase) fetchJobs(jobFilters);
-  }, [supabase, jobFilters]);
+    if (supabase && isLoaded && user) fetchJobs(jobFilters, user.id);
+  }, [supabase, jobFilters, isLoaded, user]);
 
   return { jobs, error };
 };

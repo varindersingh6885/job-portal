@@ -3,12 +3,15 @@ import { useFetchJobDetails } from "../apis/useFetchJobDetails";
 import { WORK_MODE_SELECT_ITEMS } from "../constants.ts/job-filters";
 import { Button } from "../components/Button";
 import { APP_ROUTES } from "../constants.ts/app-routes";
+import { useCandidateApplicationPresent } from "../apis/useCandidateApplicationPresent";
 
 export const ViewJob = () => {
   const { jobId } = useParams();
   const { jobDetails } = useFetchJobDetails(jobId);
 
   const navigate = useNavigate();
+
+  const { applicationPresent } = useCandidateApplicationPresent(jobId);
 
   if (!jobDetails) {
     return null;
@@ -106,20 +109,26 @@ export const ViewJob = () => {
           </div>
         </div>
 
-        <div className="mt-4 flex justify-end gap-4">
-          <Button
-            label="Apply Manually"
-            onClick={() =>
-              navigate(
-                `${APP_ROUTES.JOB_SEEKER_APPLY_JOB.replace(
-                  ":jobId",
-                  jobId ?? ""
-                )}`
-              )
-            }
-          />
-          <Button label="Quick Apply" />
-        </div>
+        {!applicationPresent ? (
+          <div className="mt-4 flex justify-end gap-4">
+            <Button
+              label="Apply Manually"
+              onClick={() =>
+                navigate(
+                  `${APP_ROUTES.JOB_SEEKER_APPLY_JOB.replace(
+                    ":jobId",
+                    jobId ?? ""
+                  )}`
+                )
+              }
+            />
+            <Button label="Quick Apply" />
+          </div>
+        ) : (
+          <p className="text-end mt-4 text-ui-text-info-primary font-semibold">
+            You have already applied for this job!
+          </p>
+        )}
       </div>
     </div>
   );

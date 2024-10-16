@@ -1,17 +1,18 @@
 import { useCallback, useEffect, useState } from "react";
 import { useSupabase } from "./useSupabase";
+import { useUser } from "@clerk/clerk-react";
 
-export const useCandidateApplicationPresent = (
-  candidateId?: string,
-  jobId?: string
-) => {
+export const useCandidateApplicationPresent = (jobId?: string) => {
+  const { user } = useUser();
+  const candidateId = user?.id;
+
   const { supabase } = useSupabase();
   const [applicationPresent, setApplicationPresent] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
   const checkCandidateApplicationPresent = useCallback(
-    async (candidateId: string, jobId: string) => {
-      if (!supabase) return null;
+    async (jobId: string) => {
+      if (!supabase || !candidateId) return null;
 
       setIsLoading(true);
       const { data, status, error } = await supabase
@@ -26,12 +27,12 @@ export const useCandidateApplicationPresent = (
       setIsLoading(false);
       return { data, status, error };
     },
-    [supabase]
+    [supabase, candidateId]
   );
 
   useEffect(() => {
     if (candidateId && jobId && supabase)
-      checkCandidateApplicationPresent(candidateId, jobId);
+      checkCandidateApplicationPresent(jobId);
   }, [candidateId, checkCandidateApplicationPresent, jobId, supabase]);
 
   return { applicationPresent, isLoading, checkCandidateApplicationPresent };

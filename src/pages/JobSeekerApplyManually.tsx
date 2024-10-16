@@ -1,24 +1,22 @@
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useFetchJobDetails } from "../apis/useFetchJobDetails";
 import { ManualApplicationForm } from "../components/ManualApplicationForm";
-import { useUser } from "@clerk/clerk-react";
 import { ApplicationManualPayload } from "../types/application";
 import { useCreateApplication } from "../apis/useCreateApplication";
 import { useCandidateApplicationPresent } from "../apis/useCandidateApplicationPresent";
+import { useUser } from "@clerk/clerk-react";
 
 export const JobSeekerApplyManually = () => {
   const { jobId } = useParams();
   const { jobDetails } = useFetchJobDetails(jobId);
-  const { isLoaded, user, isSignedIn } = useUser();
-
-  const navigate = useNavigate();
+  const { user } = useUser();
 
   const { createApplication } = useCreateApplication();
 
   const { applicationPresent, isLoading, checkCandidateApplicationPresent } =
-    useCandidateApplicationPresent(user?.id, jobId);
+    useCandidateApplicationPresent(jobId);
 
-  if (!jobId || !jobDetails || !isLoaded || !isSignedIn || isLoading) {
+  if (!jobId || !jobDetails || isLoading || !user) {
     return null;
   }
 
@@ -27,7 +25,7 @@ export const JobSeekerApplyManually = () => {
       const { status } = await createApplication(payload);
 
       if (status === 201) {
-        checkCandidateApplicationPresent(user?.id, jobId);
+        checkCandidateApplicationPresent(jobId);
       }
     }
   };
