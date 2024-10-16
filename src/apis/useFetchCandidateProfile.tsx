@@ -31,6 +31,7 @@ export const useFetchCandidateProfile = () => {
       setError(error?.message); // ! set Error message
       if (!error && data) {
         setProfileData({
+          id: data.id,
           country: {
             label: data.countries?.name as string,
             value: data.countries?.id as number,

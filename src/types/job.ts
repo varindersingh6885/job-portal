@@ -1,4 +1,3 @@
-import { UISelectItem } from "../components/UISelect";
 import { WORK_MODE } from "../constants.ts/job-filters";
 
 export interface JobCreatePayload {

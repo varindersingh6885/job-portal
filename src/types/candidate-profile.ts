@@ -17,6 +17,7 @@ export interface CandidateProfile {
 }
 
 export interface CandidateProfileResponse {
+  id: number;
   firstName: string;
   lastName: string;
   email: string;

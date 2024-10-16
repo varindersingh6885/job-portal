@@ -9,7 +9,7 @@ import { APP_ROUTES } from "../constants.ts/app-routes";
 
 export const JobSeekerSearchJobs = () => {
   const [jobFilters, setJobFilters] = useState<JobFilters>({});
-  const { error, jobs } = useJobSearch(jobFilters);
+  const { jobs } = useJobSearch(jobFilters);
 
   return (
     <div className="px-4 py-2 text-ui-text-primary">
@@ -35,7 +35,7 @@ export const JobSeekerSearchJobs = () => {
               }
             />
             <Link
-              to={`${APP_ROUTES.JOB_SEEKER_VIEW_JOB.replace(
+              to={`${APP_ROUTES.VIEW_JOB.replace(
                 ":jobId",
                 jobDetail.id.toString()
               )}`}

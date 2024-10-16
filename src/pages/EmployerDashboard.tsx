@@ -10,7 +10,7 @@ import { useState } from "react";
 export const EmployerDashboard = () => {
   const navigate = useNavigate();
   const [jobFilters, setJobFilters] = useState<JobFilters>({});
-  const { error, jobs } = useFetchCreatedJobs(jobFilters);
+  const { jobs } = useFetchCreatedJobs(jobFilters);
 
   return (
     <div className="px-4 py-2 text-ui-text-primary">

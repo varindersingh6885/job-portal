@@ -41,7 +41,7 @@ export const UserProfileForm = () => {
   );
   const [selectedStatesIds, setSelectedStatesIds] = useState<number[]>([]);
 
-  const { profileData, error, isLoading } = useFetchCandidateProfile();
+  const { profileData } = useFetchCandidateProfile();
   const [githubUsername, setGithubUsername] = useState<string>("");
 
   const {
@@ -50,8 +50,6 @@ export const UserProfileForm = () => {
     watch,
     formState: { errors },
     setValue,
-    setError,
-    clearErrors,
     reset,
     handleSubmit,
     getValues,
@@ -68,25 +66,13 @@ export const UserProfileForm = () => {
 
   const navigate = useNavigate();
 
-  const { skills, error: skillsFetchError } = useFetchSkills();
-  const { companies, error: companiesFetchError } = useFetchCompanies();
-  const { countries, error: countriesFetchError } = useFetchCountries();
-  const { states: states, error: statesFetchError } =
-    useFetchStates(selectedCountriesIds);
-  const { cities, error: citiesFetchError } = useFetchCities(
-    selectedCountriesIds,
-    selectedStatesIds
-  );
+  const { skills } = useFetchSkills();
+  const { countries } = useFetchCountries();
+  const { states: states } = useFetchStates(selectedCountriesIds);
+  const { cities } = useFetchCities(selectedCountriesIds, selectedStatesIds);
 
   const { user } = useUser();
   const { createUpdateCandidateProfile } = useCreateUpdateCandidateProfile();
-
-  const companiesOptions = useMemo(() => {
-    return companies?.map((c) => ({
-      value: c.id,
-      label: c.name,
-    }));
-  }, [companies]);
 
   const countriesOptions = useMemo(() => {
     return countries?.map((c) => ({

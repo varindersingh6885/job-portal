@@ -3,7 +3,14 @@ export interface ApplicationManualPayload {
   candidateId: string;
   resumeUrl: string;
   resumeName: string;
-  manualApplication: true;
+  manualApplication: boolean;
   expectedSalary: number;
   candidateNote?: string;
+}
+
+export interface ApplicationDetails extends ApplicationManualPayload {
+  id: number;
+  status: string;
+  createdAt: string;
+  candidateFirstName: string;
 }

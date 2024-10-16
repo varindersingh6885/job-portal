@@ -4,16 +4,21 @@ import { WORK_MODE_SELECT_ITEMS } from "../constants.ts/job-filters";
 import { Button } from "../components/Button";
 import { APP_ROUTES } from "../constants.ts/app-routes";
 import { useCandidateApplicationPresent } from "../apis/useCandidateApplicationPresent";
+import { useUser } from "@clerk/clerk-react";
+import { USER_ROLES } from "../types/user-roles";
 
 export const ViewJob = () => {
   const { jobId } = useParams();
   const { jobDetails } = useFetchJobDetails(jobId);
 
   const navigate = useNavigate();
+  const { user, isLoaded: isUserLoaded } = useUser();
+
+  const { role = USER_ROLES.JOB_SEEKER } = user?.unsafeMetadata ?? {};
 
   const { applicationPresent } = useCandidateApplicationPresent(jobId);
 
-  if (!jobDetails) {
+  if (!jobDetails || !isUserLoaded || !user) {
     return null;
   }
   return (
@@ -109,7 +114,7 @@ export const ViewJob = () => {
           </div>
         </div>
 
-        {!applicationPresent ? (
+        {!applicationPresent && role === USER_ROLES.JOB_SEEKER && (
           <div className="mt-4 flex justify-end gap-4">
             <Button
               label="Apply Manually"
@@ -124,7 +129,9 @@ export const ViewJob = () => {
             />
             <Button label="Quick Apply" />
           </div>
-        ) : (
+        )}
+
+        {applicationPresent && role === USER_ROLES.JOB_SEEKER && (
           <p className="text-end mt-4 text-ui-text-info-primary font-semibold">
             You have already applied for this job!
           </p>

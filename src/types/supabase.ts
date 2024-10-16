@@ -18,6 +18,7 @@ export type Database = {
           id: number
           job_id: number | null
           manual_application: boolean | null
+          profile_id: number | null
           resume_name: string | null
           resume_url: string | null
           status: Database["public"]["Enums"]["application_status"] | null
@@ -30,6 +31,7 @@ export type Database = {
           id?: number
           job_id?: number | null
           manual_application?: boolean | null
+          profile_id?: number | null
           resume_name?: string | null
           resume_url?: string | null
           status?: Database["public"]["Enums"]["application_status"] | null
@@ -42,6 +44,7 @@ export type Database = {
           id?: number
           job_id?: number | null
           manual_application?: boolean | null
+          profile_id?: number | null
           resume_name?: string | null
           resume_url?: string | null
           status?: Database["public"]["Enums"]["application_status"] | null
@@ -52,6 +55,13 @@ export type Database = {
             columns: ["job_id"]
             isOneToOne: false
             referencedRelation: "jobs"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "applications_profile_id_fkey"
+            columns: ["profile_id"]
+            isOneToOne: false
+            referencedRelation: "user_profiles"
             referencedColumns: ["id"]
           },
         ]

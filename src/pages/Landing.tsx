@@ -1,9 +1,29 @@
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import { Button } from "../components/Button";
 import { APP_ROUTES } from "../constants.ts/app-routes";
+import { useUser } from "@clerk/clerk-react";
+import { USER_ROLES } from "../types/user-roles";
 
 export const LandingPage = () => {
   const navigate = useNavigate();
+
+  const { isLoaded, isSignedIn, user } = useUser();
+
+  if (!isLoaded) {
+    return null;
+  }
+
+  if (isLoaded && isSignedIn && user) {
+    return (
+      <Navigate
+        to={
+          user.unsafeMetadata.role === USER_ROLES.EMPLOYER
+            ? APP_ROUTES.EMPLOYER_DASHBOARD
+            : APP_ROUTES.JOB_SEEKER_DASHBOARD
+        }
+      />
+    );
+  }
 
   return (
     <div className="h-screen w-screen flex justify-center items-center">
