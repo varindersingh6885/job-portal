@@ -14,6 +14,7 @@ import { JobSeekerApplyManually } from "./pages/JobSeekerApplyManually";
 import { ViewApplications } from "./pages/ViewApplications";
 import { AuthUserRoutes } from "./components/AuthUserRoutes";
 import { USER_ROLES } from "./types/user-roles";
+import { ViewCandidateProfile } from "./pages/ViewCandidateProfile";
 
 export const useAppRoutes = (): RouteObject[] => {
   return [
@@ -74,6 +75,10 @@ export const useAppRoutes = (): RouteObject[] => {
             {
               path: APP_ROUTES.EMPLOYER_VIEW_APPLICATIONS,
               element: <ViewApplications />,
+            },
+            {
+              path: APP_ROUTES.EMPLOYER_VIEW_CANDIDATE_PROFILE,
+              element: <ViewCandidateProfile />,
             },
           ],
         },

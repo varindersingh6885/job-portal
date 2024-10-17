@@ -39,9 +39,10 @@ export const UserProfileForm = () => {
   const [selectedCountriesIds, setSelectedCountriesIds] = useState<number[]>(
     []
   );
+  const { user } = useUser();
   const [selectedStatesIds, setSelectedStatesIds] = useState<number[]>([]);
 
-  const { profileData, isLoading } = useFetchCandidateProfile();
+  const { profileData, isLoading } = useFetchCandidateProfile(user.id);
   const [githubUsername, setGithubUsername] = useState<string>("");
 
   const {
@@ -71,7 +72,6 @@ export const UserProfileForm = () => {
   const { states: states } = useFetchStates(selectedCountriesIds);
   const { cities } = useFetchCities(selectedCountriesIds, selectedStatesIds);
 
-  const { user } = useUser();
   const { createUpdateCandidateProfile } = useCreateUpdateCandidateProfile();
 
   const countriesOptions = useMemo(() => {

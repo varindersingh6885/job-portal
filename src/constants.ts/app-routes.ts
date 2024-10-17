@@ -14,6 +14,7 @@ export enum APP_ROUTES {
   EMPLOYER_DASHBOARD = "/employer/dashboard",
   EMPLOYER_CREATE_JOB = "/employer/create-job",
   EMPLOYER_VIEW_APPLICATIONS = "/employer/applications/:jobId",
+  EMPLOYER_VIEW_CANDIDATE_PROFILE = "/employer/candidate/:candidateId",
 
   USER_PROFILE = "/profile",
 }

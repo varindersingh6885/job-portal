@@ -1,11 +1,10 @@
-import { useSession, useUser } from "@clerk/clerk-react";
+import { useSession } from "@clerk/clerk-react";
 import { CandidateProfileResponse } from "../types/candidate-profile";
 import { useEffect, useState } from "react";
 import supabaseClient from "../utils/supabase";
 
-export const useFetchCandidateProfile = () => {
+export const useFetchCandidateProfile = (candidateId: string) => {
   const { session, isLoaded } = useSession();
-  const { user } = useUser();
 
   const [profileData, setProfileData] = useState<CandidateProfileResponse>();
   const [isLoading, setIsLoading] = useState(false);
@@ -19,13 +18,13 @@ export const useFetchCandidateProfile = () => {
 
     const supabase = await supabaseClient(supabaseAccessToken as string);
 
-    if (session && user) {
+    if (session) {
       const { data, error } = await supabase
         .from("user_profiles")
         .select(
           "*, cities(id, name), states(id, name), countries(id, name), user_profile_skills ( skill_id, skills ( name ) )"
         )
-        .eq("user_id", user.id)
+        .eq("user_id", candidateId)
         .maybeSingle();
 
       setError(error?.message); // ! set Error message

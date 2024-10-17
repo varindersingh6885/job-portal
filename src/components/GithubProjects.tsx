@@ -1,16 +1,26 @@
 import { useFetchGithubRepos } from "../apis/useFetchGithubRepos";
+import { Loader } from "./Loader";
+import { ResultsNotFound } from "./ResultsNotFound";
 
 export const GithubProjects = ({ username }: { username: string }) => {
-  const { repos = [], isLoading } = useFetchGithubRepos(username);
+  const { repos = [], isLoading, isError } = useFetchGithubRepos(username);
 
   if (isLoading) {
-    return <div>Github projects Loading...</div>;
+    return (
+      <div>
+        <Loader />
+      </div>
+    );
+  }
+
+  if (isError) {
+    return <ResultsNotFound message="No Github projects found" />;
   }
 
   return repos.length > 0 ? (
     <>
       <div>
-        <h4 className="mb-2">Github Projects:</h4>
+        <h4 className="mb-2 text-center">Github Projects:</h4>
       </div>
       <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-2">
         {repos.map((repo) => {
