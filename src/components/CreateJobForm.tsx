@@ -204,6 +204,9 @@ export const CreateJobForm = () => {
             name="company"
             control={control}
             isRequired
+            rules={{
+              required: "Company is required.",
+            }}
           />
           <p className="text-xs text-ui-text-info-primary cursor-pointer hover:underline pt-1">
             Add new company

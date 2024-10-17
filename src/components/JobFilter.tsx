@@ -27,6 +27,7 @@ const defaultValues = {
 };
 
 export const JobFilter = ({ onApplyFilters }: JobFilterProps) => {
+  const [showAdvancedFilters, setShowAdvancedFilters] = useState(false);
   const { register, control, getValues, reset } = useForm<FieldValues>({
     defaultValues: defaultValues,
   });
@@ -107,94 +108,125 @@ export const JobFilter = ({ onApplyFilters }: JobFilterProps) => {
 
   return (
     <div className="bg-ui-background-primary rounded-lg p-4">
-      <h4 className="mb-4">Apply job filters</h4>
+      {!showAdvancedFilters && (
+        <div className="flex gap-2 items-end">
+          <div className="flex-1">
+            <TextInput
+              name="keyword"
+              label="Job title"
+              placeholder="Enter job title"
+              register={register}
+            />
+          </div>
+          <Button
+            label="Search"
+            type="button"
+            onClick={() => onApplyFilters({ title: getValues().keyword })}
+          />
+          <Button label="Clear" onClick={clearFiltersHandler} />
+        </div>
+      )}
 
-      <div className="grid grid-cols-5 gap-2">
-        <TextInput
-          name="experience"
-          type="number"
-          label="Experience"
-          placeholder="Enter experience in years"
-          register={register}
-          rules={{
-            valueAsNumber: true,
-          }}
-        />
+      {showAdvancedFilters && (
+        <>
+          <div className="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 gap-2">
+            <TextInput
+              name="keyword"
+              label="Job title"
+              placeholder="Enter job title"
+              register={register}
+            />
 
-        <UISelect
-          label="Skill"
-          placeholder="Select skill"
-          options={skillsOptions}
-          isMulti
-          name="skills"
-          control={control}
-        />
+            <TextInput
+              name="experience"
+              type="number"
+              label="Experience"
+              placeholder="Enter experience in years"
+              register={register}
+              rules={{
+                valueAsNumber: true,
+              }}
+            />
 
-        <UISelect
-          label="Company"
-          placeholder="Select companies"
-          options={companiesOptions}
-          isMulti
-          name="companies"
-          control={control}
-        />
+            <UISelect
+              label="Skill"
+              placeholder="Select skill"
+              options={skillsOptions}
+              isMulti
+              name="skills"
+              control={control}
+            />
 
-        <UISelect
-          label="Country"
-          placeholder="Select country"
-          options={countriesOptions}
-          isMulti
-          control={control}
-          name="countries"
-          onChange={(value) => {
-            if (Array.isArray(value)) {
-              setSelectedCountriesIds(value.map((c) => c.value));
-            }
-          }}
-        />
+            <UISelect
+              label="Company"
+              placeholder="Select companies"
+              options={companiesOptions}
+              isMulti
+              name="companies"
+              control={control}
+            />
 
-        <UISelect
-          label="State"
-          placeholder="Select state"
-          options={statesOptions}
-          isMulti
-          control={control}
-          name="states"
-          onChange={(value) => {
-            if (Array.isArray(value)) {
-              setSelectedStatesIds(value.map((c) => c.value));
-            }
-          }}
-        />
+            <UISelect
+              label="Country"
+              placeholder="Select country"
+              options={countriesOptions}
+              isMulti
+              control={control}
+              name="countries"
+              onChange={(value) => {
+                if (Array.isArray(value)) {
+                  setSelectedCountriesIds(value.map((c) => c.value));
+                }
+              }}
+            />
 
-        <UISelect
-          label="City"
-          placeholder="Select city"
-          options={citiesOptions}
-          isMulti
-          control={control}
-          name="cities"
-        />
+            <UISelect
+              label="State"
+              placeholder="Select state"
+              options={statesOptions}
+              isMulti
+              control={control}
+              name="states"
+              onChange={(value) => {
+                if (Array.isArray(value)) {
+                  setSelectedStatesIds(value.map((c) => c.value));
+                }
+              }}
+            />
 
-        <UISelect
-          label="Work mode"
-          placeholder="Select work mode"
-          options={WORK_MODE_SELECT_ITEMS}
-          name="workMode"
-          control={control}
-        />
+            <UISelect
+              label="City"
+              placeholder="Select city"
+              options={citiesOptions}
+              isMulti
+              control={control}
+              name="cities"
+            />
 
-        <TextInput
-          name="keyword"
-          label="Keyword"
-          placeholder="Keyword"
-          register={register}
-        />
-      </div>
-      <div className="flex mt-2 gap-3">
-        <Button label="Clear filters" onClick={clearFiltersHandler} />
-        <Button label="Apply filters" onClick={onApplyFiltersHandler} />
-      </div>
+            <UISelect
+              label="Work mode"
+              placeholder="Select work mode"
+              options={WORK_MODE_SELECT_ITEMS}
+              name="workMode"
+              control={control}
+            />
+          </div>
+          <div className="flex mt-2 gap-3">
+            <Button label="Clear filters" onClick={clearFiltersHandler} />
+            <Button label="Apply filters" onClick={onApplyFiltersHandler} />
+          </div>
+        </>
+      )}
+
+      <button
+        className="mt-2 hover:underline"
+        type="button"
+        onClick={() => setShowAdvancedFilters(!showAdvancedFilters)}
+      >
+        {showAdvancedFilters
+          ? "Hide advanced filters"
+          : "Show advanced filters"}
+      </button>
     </div>
   );
 };

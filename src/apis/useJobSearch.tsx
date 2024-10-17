@@ -116,8 +116,6 @@ export const useJobSearch = (jobFilters: JobFilters, currPage: number) => {
     const from = (page - 1) * pageSize;
     const to = from + pageSize - 1;
 
-    console.log("from", from, "to", to);
-
     // Apply pagination using the range method
     query = query.range(from, to);
 

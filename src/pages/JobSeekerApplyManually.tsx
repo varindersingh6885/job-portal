@@ -1,10 +1,11 @@
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useFetchJobDetails } from "../apis/useFetchJobDetails";
 import { ManualApplicationForm } from "../components/ManualApplicationForm";
 import { ApplicationManualPayload } from "../types/application";
 import { useCreateApplication } from "../apis/useCreateApplication";
 import { useCandidateApplicationPresent } from "../apis/useCandidateApplicationPresent";
 import { useUser } from "@clerk/clerk-react";
+import { APP_ROUTES } from "../constants.ts/app-routes";
 
 export const JobSeekerApplyManually = () => {
   const { jobId } = useParams();
@@ -48,6 +49,13 @@ export const JobSeekerApplyManually = () => {
         ) : (
           <div className="py-4">
             <h3>You have submitted the application!</h3>
+
+            <Link
+              to={APP_ROUTES.JOB_SEEKER_SEARCH_JOBS}
+              className="text-ui-text-primary font-bold hover:underline rounded-lg"
+            >
+              Continue job search
+            </Link>
           </div>
         )}
       </div>

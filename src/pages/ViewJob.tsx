@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useFetchJobDetails } from "../apis/useFetchJobDetails";
 import { WORK_MODE_SELECT_ITEMS } from "../constants.ts/job-filters";
 import { Button } from "../components/Button";
@@ -92,8 +92,12 @@ export const ViewJob = () => {
           <div className="mt-4">
             <h2 className="font-semibold">Contact details</h2>
             <div className="pl-4">
-              <p>Email id: {jobDetails.contactEmail}</p>
-              <p>Phone number: {jobDetails.contactNumber}</p>
+              {jobDetails.contactEmail && (
+                <p>Email id: {jobDetails.contactEmail}</p>
+              )}
+              {jobDetails.contactNumber && (
+                <p>Phone number: {jobDetails.contactNumber}</p>
+              )}
             </div>
           </div>
         )}
@@ -134,6 +138,12 @@ export const ViewJob = () => {
         {applicationPresent && role === USER_ROLES.JOB_SEEKER && (
           <p className="text-end mt-4 text-ui-text-info-primary font-semibold">
             You have already applied for this job!
+            <Link
+              to={APP_ROUTES.JOB_SEEKER_SEARCH_JOBS}
+              className="text-ui-text-primary font-bold hover:underline p-4 rounded-lg"
+            >
+              Continue job search
+            </Link>
           </p>
         )}
       </div>
