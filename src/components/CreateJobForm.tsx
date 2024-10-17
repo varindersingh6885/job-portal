@@ -162,6 +162,7 @@ export const CreateJobForm = () => {
           label="Maximum experience"
           placeholder="Enter maximum experience"
           register={register}
+          type="number"
           isRequired
           rules={{
             required: "Maximum experience is required",
@@ -176,6 +177,7 @@ export const CreateJobForm = () => {
           placeholder="Enter minimum salary"
           register={register}
           isRequired
+          type="number"
           rules={{
             required: "Minimum salary is required",
             valueAsNumber: true,
@@ -187,6 +189,7 @@ export const CreateJobForm = () => {
           name="maxSalary"
           label="Maximum salary (per hour)"
           placeholder="Enter maximum salary"
+          type="number"
           register={register}
           isRequired
           rules={{
@@ -246,6 +249,10 @@ export const CreateJobForm = () => {
               name="country"
               isRequired
               rules={{ required: "Country is required" }}
+              onChange={(value: UISelectItem) => {
+                if (!Array.isArray(value) && value)
+                  setSelectedCountriesIds([value.value as number]);
+              }}
             />
             <p className="text-xs text-ui-text-info-primary cursor-pointer hover:underline pt-1">
               Add new country
@@ -261,6 +268,10 @@ export const CreateJobForm = () => {
               name="state"
               isRequired
               rules={{ required: "State is required" }}
+              onChange={(value: UISelectItem) => {
+                if (!Array.isArray(value) && value)
+                  setSelectedStatesIds([value.value as number]);
+              }}
             />
             <p className="text-xs text-ui-text-info-primary cursor-pointer hover:underline pt-1">
               Add new state

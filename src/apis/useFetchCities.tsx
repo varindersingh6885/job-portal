@@ -29,9 +29,9 @@ export const useFetchCities = (
     const query = supabase.from("cities").select("*");
 
     //  ! figure out a way to do this
-    // if (selectedCountriesIds.length > 0) {
-    //   query.in("country_id", selectedCountriesIds);
-    // }
+    if (selectedCountriesIds.length > 0) {
+      query.in("country_id", selectedCountriesIds);
+    }
     if (selectedStatesIds.length > 0) {
       query.in("state_id", selectedStatesIds);
     }

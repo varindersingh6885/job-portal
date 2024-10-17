@@ -8,9 +8,11 @@ export const EmployerJobList = ({ jobs }: { jobs: JobListItem[] }) => {
   return (
     <div>
       {jobs.map((jobDetail) => (
-        <div className="flex justify-between items-center hover:bg-ui-background-primary-highlight rounded-sm">
+        <div
+          className="flex justify-between items-center hover:bg-ui-background-primary-highlight rounded-sm"
+          key={jobDetail.id}
+        >
           <JobListCard
-            key={jobDetail.id}
             city={jobDetail.city}
             companyLogoUrl={jobDetail.companyUrl}
             companyName={jobDetail.company}

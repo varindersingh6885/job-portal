@@ -201,6 +201,10 @@ export const UserProfileForm = () => {
                 name="country"
                 isRequired
                 rules={{ required: "Country is required" }}
+                onChange={(value: UISelectItem) => {
+                  if (!Array.isArray(value) && value)
+                    setSelectedCountriesIds([value.value as number]);
+                }}
               />
               <p className="text-xs text-ui-text-info-primary cursor-pointer hover:underline pt-1">
                 Add new country
@@ -216,6 +220,10 @@ export const UserProfileForm = () => {
                 name="state"
                 isRequired
                 rules={{ required: "State is required" }}
+                onChange={(value: UISelectItem) => {
+                  if (!Array.isArray(value) && value)
+                    setSelectedStatesIds([value.value as number]);
+                }}
               />
               <p className="text-xs text-ui-text-info-primary cursor-pointer hover:underline pt-1">
                 Add new state

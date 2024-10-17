@@ -68,24 +68,34 @@ export type Database = {
       }
       cities: {
         Row: {
+          country_id: number | null
           created_at: string
           id: number
           name: string
           state_id: number
         }
         Insert: {
+          country_id?: number | null
           created_at?: string
           id?: number
           name: string
           state_id: number
         }
         Update: {
+          country_id?: number | null
           created_at?: string
           id?: number
           name?: string
           state_id?: number
         }
         Relationships: [
+          {
+            foreignKeyName: "cities_country_id_fkey"
+            columns: ["country_id"]
+            isOneToOne: false
+            referencedRelation: "countries"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "cities_state_id_fkey"
             columns: ["state_id"]

@@ -6,7 +6,7 @@ import { APP_ROUTES } from "../constants.ts/app-routes";
 import { useCandidateApplicationPresent } from "../apis/useCandidateApplicationPresent";
 import { useUser } from "@clerk/clerk-react";
 import { USER_ROLES } from "../types/user-roles";
-import { ApplyJobOptions, QuickApplyJob } from "../components/ApplyJobOptions";
+import { ApplyJobOptions } from "../components/ApplyJobOptions";
 
 export const ViewJob = () => {
   const { jobId } = useParams();
