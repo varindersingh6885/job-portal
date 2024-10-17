@@ -31,4 +31,6 @@ export interface CandidateProfileResponse {
   githubUsername: string;
   phoneNumber: string;
   resumeName: string;
+  expectedSalary: number;
+  userId: string;
 }

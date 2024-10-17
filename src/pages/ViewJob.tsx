@@ -6,6 +6,7 @@ import { APP_ROUTES } from "../constants.ts/app-routes";
 import { useCandidateApplicationPresent } from "../apis/useCandidateApplicationPresent";
 import { useUser } from "@clerk/clerk-react";
 import { USER_ROLES } from "../types/user-roles";
+import { ApplyJobOptions, QuickApplyJob } from "../components/ApplyJobOptions";
 
 export const ViewJob = () => {
   const { jobId } = useParams();
@@ -118,34 +119,7 @@ export const ViewJob = () => {
           </div>
         </div>
 
-        {!applicationPresent && role === USER_ROLES.JOB_SEEKER && (
-          <div className="mt-4 flex justify-end gap-4">
-            <Button
-              label="Apply Manually"
-              onClick={() =>
-                navigate(
-                  `${APP_ROUTES.JOB_SEEKER_APPLY_JOB.replace(
-                    ":jobId",
-                    jobId ?? ""
-                  )}`
-                )
-              }
-            />
-            <Button label="Quick Apply" />
-          </div>
-        )}
-
-        {applicationPresent && role === USER_ROLES.JOB_SEEKER && (
-          <p className="text-end mt-4 text-ui-text-info-primary font-semibold">
-            You have already applied for this job!
-            <Link
-              to={APP_ROUTES.JOB_SEEKER_SEARCH_JOBS}
-              className="text-ui-text-primary font-bold hover:underline p-4 rounded-lg"
-            >
-              Continue job search
-            </Link>
-          </p>
-        )}
+        <ApplyJobOptions jobId={jobId} />
       </div>
     </div>
   );

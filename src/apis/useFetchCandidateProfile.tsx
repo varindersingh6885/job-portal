@@ -56,6 +56,8 @@ export const useFetchCandidateProfile = (candidateId: string) => {
             label: s.skills?.name as string,
             value: s.skill_id as number,
           })),
+          expectedSalary: data.expected_salary as number,
+          userId: data.user_id as string,
         });
       }
     }
