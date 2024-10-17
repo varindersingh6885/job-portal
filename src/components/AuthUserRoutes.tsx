@@ -9,8 +9,6 @@ export const AuthUserRoutes = ({ userRole }: { userRole: USER_ROLES }) => {
     return null;
   }
 
-  console.log("user meta data", user.unsafeMetadata);
-
   if (isLoaded && isSignedIn && user.unsafeMetadata.role !== userRole) {
     return <Navigate to={APP_ROUTES.LANDING} />;
   }
