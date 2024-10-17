@@ -2,8 +2,7 @@ import { useUser } from "@clerk/clerk-react";
 import { Navigate, Outlet } from "react-router-dom";
 import { USER_ROLES } from "../types/user-roles";
 import { APP_ROUTES } from "../constants.ts/app-routes";
-
-export const AuthEmployerRoutes = ({ userRole }: { userRole: USER_ROLES }) => {
+export const AuthUserRoutes = ({ userRole }: { userRole: USER_ROLES }) => {
   const { isLoaded, isSignedIn, user } = useUser();
 
   if (!isLoaded) {

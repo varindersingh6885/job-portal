@@ -12,7 +12,7 @@ import { JobSeekerSearchJobs } from "./pages/JobSeekerSearchJobs";
 import { ViewJob } from "./pages/ViewJob";
 import { JobSeekerApplyManually } from "./pages/JobSeekerApplyManually";
 import { ViewApplications } from "./pages/ViewApplications";
-import { AuthEmployerRoutes } from "./components/AuthEmployerRoutes";
+import { AuthUserRoutes } from "./components/AuthUserRoutes";
 import { USER_ROLES } from "./types/user-roles";
 
 export const useAppRoutes = (): RouteObject[] => {
@@ -35,7 +35,7 @@ export const useAppRoutes = (): RouteObject[] => {
       children: [
         {
           path: "",
-          element: <AuthEmployerRoutes userRole={USER_ROLES.JOB_SEEKER} />,
+          element: <AuthUserRoutes userRole={USER_ROLES.JOB_SEEKER} />,
           children: [
             {
               path: APP_ROUTES.JOB_SEEKER_DASHBOARD,
@@ -61,7 +61,7 @@ export const useAppRoutes = (): RouteObject[] => {
         },
         {
           path: "",
-          element: <AuthEmployerRoutes userRole={USER_ROLES.EMPLOYER} />,
+          element: <AuthUserRoutes userRole={USER_ROLES.EMPLOYER} />,
           children: [
             {
               path: APP_ROUTES.EMPLOYER_DASHBOARD,

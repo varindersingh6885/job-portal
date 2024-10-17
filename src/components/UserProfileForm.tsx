@@ -6,7 +6,6 @@ import { APP_ROUTES } from "../constants.ts/app-routes";
 import { FieldValues, useForm } from "react-hook-form";
 import { UISelect, UISelectItem } from "./UISelect";
 import { useFetchSkills } from "../apis/useFetchSkills";
-import { useFetchCompanies } from "../apis/useFetchCompanies";
 import { useFetchCountries } from "../apis/useFetchCountries";
 import { useFetchStates } from "../apis/useFetchStates";
 import { useFetchCities } from "../apis/useFetchCities";
@@ -18,6 +17,7 @@ import { GithubProjects } from "./GithubProjects";
 import { useCreateUpdateCandidateProfile } from "../apis/useCreateUpdateCandidateProfile";
 import { useFetchCandidateProfile } from "../apis/useFetchCandidateProfile";
 import { useUser } from "@clerk/clerk-react";
+import { Loader } from "./Loader";
 
 const defaultValues: CandidateProfile = {
   firstName: "",
@@ -41,7 +41,7 @@ export const UserProfileForm = () => {
   );
   const [selectedStatesIds, setSelectedStatesIds] = useState<number[]>([]);
 
-  const { profileData } = useFetchCandidateProfile();
+  const { profileData, isLoading } = useFetchCandidateProfile();
   const [githubUsername, setGithubUsername] = useState<string>("");
 
   const {
@@ -116,7 +116,7 @@ export const UserProfileForm = () => {
           githubUsername: githubUsername,
           profileDescription: formData.profileDescription,
           resumeUrl: formData.resumeUrl,
-          resumeName: formData.resumeFileName,
+          resumeName: formData.resumeName,
           skills: formData.skills.map((s: UISelectItem) => s.value),
           phoneNumber: formData.contactNumber,
         },
@@ -130,6 +130,14 @@ export const UserProfileForm = () => {
       }
     }
   };
+
+  if (isLoading) {
+    return (
+      <div className="flex-1 flex justify-center items-center">
+        <Loader />
+      </div>
+    );
+  }
 
   return (
     <>

@@ -4,14 +4,23 @@ import { useSupabase } from "./useSupabase";
 import { JobFilters } from "../types/job-filters";
 import { useUser } from "@clerk/clerk-react";
 
-export const useJobSearch = (jobFilters: JobFilters) => {
+export const useJobSearch = (jobFilters: JobFilters, currPage: number) => {
   const [jobs, setJobs] = useState<JobListItem[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [totalJobs, setTotalJobs] = useState(0);
   const [error, setError] = useState<string>();
   const { supabase } = useSupabase();
   const { user, isLoaded } = useUser();
 
-  const fetchJobs = async (jobFilters: JobFilters, userId: string) => {
+  const fetchJobs = async (
+    jobFilters: JobFilters,
+    userId: string,
+    page: number = 1,
+    pageSize: number = 10
+  ) => {
     if (!supabase) return;
+    setJobs([]);
+    setIsLoading(true);
 
     const { data: appliedJobs, error: appliedJobsError } = await supabase
       .from("applications")
@@ -29,79 +38,91 @@ export const useJobSearch = (jobFilters: JobFilters) => {
       .from("jobs")
       .select(
         `
-    id, 
-    title, 
-    created_at, 
-    is_open, 
-    work_mode, 
-    companies(*), 
-    cities(*), 
-    states(*), 
-    countries(*), 
-    skills (name)
-    `
+      id, 
+      title, 
+      created_at, 
+      is_open, 
+      work_mode, 
+      companies(*), 
+      cities(*), 
+      states(*), 
+      countries(*), 
+      skills (name)
+      `,
+        { count: "exact" } // This will return the total count of matching jobs
       )
-      .not("id", "in", `(${appliedJobIds.join(",")})`)
+      .not("id", "in", `(${appliedJobIds.join(",")})`) // Fallback for empty applied jobs
       .order("created_at", { ascending: false });
 
     // Apply filters based on the input
 
-    // City IDs filter
     if (jobFilters.cityIds?.length) {
       query = query.in("city_id", jobFilters.cityIds);
     }
 
-    // State IDs filter
     if (jobFilters.stateIds?.length) {
       query = query.in("state_id", jobFilters.stateIds);
     }
 
-    // Country IDs filter
     if (jobFilters.countryIds?.length) {
       query = query.in("country_id", jobFilters.countryIds);
     }
 
-    // Company IDs filter
     if (jobFilters.companyIds?.length) {
       query = query.in("company_id", jobFilters.companyIds);
     }
 
-    // Experience filter
     if (jobFilters.experience !== undefined && jobFilters.experience) {
       query = query
         .gte("max_experience", jobFilters.experience)
         .lte("min_experience", jobFilters.experience);
     }
 
-    // Min salary filter
     if (jobFilters.minSalary !== undefined) {
       query = query.gte("min_salary", jobFilters.minSalary);
     }
 
-    // Keyword filter (searches in title and description)
     if (jobFilters.keyword) {
       query = query.or(
         `title.ilike.%${jobFilters.keyword}%,description.ilike.%${jobFilters.keyword}%`
       );
     }
 
-    // Title filter
     if (jobFilters.title) {
       query = query.ilike("title", `%${jobFilters.title}%`);
     }
 
-    // Work mode filter
     if (jobFilters.workMode) {
       query = query.eq("work_mode", jobFilters.workMode);
     }
 
-    // Job status filter (is_open)
     if (jobFilters.jobStatus !== undefined) {
       query = query.eq("is_open", jobFilters.jobStatus);
     }
 
+    if (jobFilters.skillsIds?.length) {
+      query = query.in(
+        "id",
+        (
+          await supabase
+            .from("job_skills")
+            .select("job_id")
+            .in("skill_id", jobFilters.skillsIds)
+        ).data.map((job) => job.job_id)
+      );
+    }
+
+    // Pagination: Calculate the range for the current page
+    const from = (page - 1) * pageSize;
+    const to = from + pageSize - 1;
+
+    console.log("from", from, "to", to);
+
+    // Apply pagination using the range method
+    query = query.range(from, to);
+
     // Execute the query
-    const { data, error } = await query;
+    const { data, error, count } = await query;
 
     setError(error?.message); // ! set Error message
     if (!error) {
@@ -119,12 +140,16 @@ export const useJobSearch = (jobFilters: JobFilters) => {
           workMode: c.work_mode,
         }))
       );
+
+      setTotalJobs(count);
+
+      setIsLoading(false);
     }
   };
 
   useEffect(() => {
-    if (supabase && isLoaded && user) fetchJobs(jobFilters, user.id);
-  }, [supabase, jobFilters, isLoaded, user]);
+    if (supabase && isLoaded && user) fetchJobs(jobFilters, user.id, currPage);
+  }, [supabase, jobFilters, isLoaded, user, currPage]);
 
-  return { jobs, error };
+  return { jobs, error, totalJobs, isLoading };
 };
